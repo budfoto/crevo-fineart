@@ -2,11 +2,13 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Orçamento - CREVO Fine Art</title>
     
-    <link rel="icon" href="favicon_claro.png" media="(prefers-color-scheme: light)">
-    <link rel="icon" href="favicon_noturno.png" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="favicon_claro.png" type="image/png">
+    <link rel="apple-touch-icon" href="favicon_claro.png">
+    <link rel="icon" href="favicon_claro.png" media="(prefers-color-scheme: light)" type="image/png">
+    <link rel="icon" href="favicon_noturno.png" media="(prefers-color-scheme: dark)" type="image/png">
 
     <style>
         /* --- FONTES LOCAIS --- */
@@ -82,7 +84,7 @@
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 15px; }
         .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 15px; }
         
-        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; color: var(--text-main); position: relative; }
+        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text-main); position: relative; }
         input, select, textarea {
             width: 100%;
             padding: 10px;
@@ -264,23 +266,49 @@
             z-index: 10; margin-top: 15px; margin-bottom: -30px;
         }
 
+        /* --- MELHORIAS MOBILE --- */
         @media (max-width: 768px) {
-            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.3rem; margin-bottom: 10px; }
+            p { font-size: 0.9rem; }
+            
+            .logo-btn { max-width: 80px !important; }
+
+            /* Previne o zoom indesejado no iOS e melhora touch area */
+            input, select, textarea { font-size: 16px !important; padding: 12px; }
+            .btn { padding: 12px 20px; font-size: 1rem; min-height: 44px; }
+            .btn-small { min-height: 42px; padding: 8px 14px; }
+
+            .section-box { padding: 15px; margin-bottom: 20px; }
+            .container { padding: 15px; border-radius: 0; }
+            
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; gap: 15px; margin-bottom: 15px; }
             .medidas-container { flex-wrap: wrap; }
-            .totals-box { width: 100%; }
-            .container { padding: 15px; }
+            
+            .totals-box { width: 100%; padding: 15px; }
+            .totals-row.grand-total { font-size: 1.15rem; }
+            
             .header-section { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .header-section .actions-group { width: 100%; display: flex; flex-direction: column; }
+            .header-section .actions-group { width: 100%; display: flex; flex-direction: column; gap: 10px; }
             .header-section .actions-group .btn { width: 100%; justify-content: center; }
             
             .modal-overlay { padding: 10px; }
             .modal-content { padding: 15px; }
             
-            .backup-tools { flex-direction: column; align-items: stretch; }
-            .backup-tools .btn { width: 100%; justify-content: center; }
+            .backup-tools { flex-direction: column; align-items: stretch; gap: 10px; }
+            .backup-tools .btn { width: 100%; justify-content: center; margin: 0; }
             .backup-tools span { text-align: center; margin: 0 auto !important; }
+            
             .search-container { max-width: 100%; }
-            .modal-footer-fixed { bottom: -15px; padding-bottom: 15px; margin-bottom: -15px; }
+            .modal-footer-fixed { bottom: -15px; padding-bottom: 15px; margin-bottom: -15px; flex-direction: column; gap: 10px; align-items: flex-start; }
+            
+            /* Botões do final em coluna */
+            .actions-bottom { flex-direction: column; gap: 15px; }
+            .actions-bottom .btn { width: 100%; margin: 0; justify-content: center; }
+
+            .item-card { padding: 15px; }
+            .item-actions { flex-direction: column; gap: 10px; }
+            .item-actions .btn { width: 100%; justify-content: center; }
         }
 
         /* --- CSS MODO IMPRESSÃO (OTIMIZADO PARA 1 PÁGINA) --- */
@@ -1565,7 +1593,7 @@
                             parsed.push({
                                 id: parseInt(obj.ID) || Date.now() + i,
                                 nome: obj.Nome, email: obj.Email, tel: parsedTel,
-                                doc: obj.Documento, cep: obj.CEP, endereco: obj.Endereco, cidade: obj.Cidade,
+                                doc: obj.Documento, cep: obj.CEP, endereco: obj.Cidade, cidade: obj.Cidade,
                                 ddi: parsedDDI, categoria: obj.Categoria, ig: obj.Instagram, observacao: obj.Observacao,
                                 fixo: obj.ClienteFixo === 'Sim'
                             });
@@ -2005,11 +2033,23 @@
         const originalTitle = document.title;
         const nomeCliente = document.getElementById('cliente-nome').value.trim();
         const nomeArquivo = nomeCliente ? `Orcamento-${nomeCliente.replace(/\s+/g, '-')}-CREVO` : `Orcamento-Cliente-CREVO`;
+        
+        // Aplica o novo título da página para forçar o nome do arquivo gerado
         document.title = nomeArquivo;
 
-        window.print();
+        // O timeout é crucial no mobile para dar tempo do navegador entender a mudança do <title>
+        setTimeout(() => {
+            window.print();
+            
+            // Listener que restaura o título assim que a tela de impressão é fechada (funciona bem em desktop/android)
+            window.addEventListener('afterprint', function onAfterPrint() {
+                document.title = originalTitle;
+                window.removeEventListener('afterprint', onAfterPrint);
+            });
 
-        document.title = originalTitle;
+            // Fallback forte para iOS Safari, que costuma ignorar eventos de impressão
+            setTimeout(() => { document.title = originalTitle; }, 3000);
+        }, 300);
     };
 </script>
 </body>
