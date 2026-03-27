@@ -39,20 +39,20 @@
             font-weight: 700;
         }
 
-        /* --- VARIÁVEIS DE COR (BRANDING CREVO) --- */
+        /* --- VARIÁVEIS DE COR (BRANDING CREVO E ESTÉTICA APPLE) --- */
         :root {
-            --bg-color: #F5F6F6;
+            --bg-color: #F2F2F7; /* Cinza nativo do iOS */
             --card-bg: #FFFFFF;
-            --text-main: #242021;
-            --text-muted: #7A7571;
-            --border-color: #e4e4e4;
-            --accent-color: #242021;
-            --accent-hover: #444040;
-            --danger-color: #C25B5B;
-            --success-color: #4CAF50;
+            --text-main: #1C1C1E; /* Preto suave iOS */
+            --text-muted: #8E8E93; /* Cinza texto iOS */
+            --border-color: #E5E5EA; /* Borda sutil iOS */
+            --accent-color: #1C1C1E;
+            --accent-hover: #3A3A3C;
+            --danger-color: #FF3B30; /* Vermelho iOS */
+            --success-color: #34C759; /* Verde iOS */
             --font-heading: 'TAN-Buster', serif;
             --font-body: 'Manrope', sans-serif;
-            --radius: 8px;
+            --radius: 12px; /* Arredondamento padrão Apple */
         }
 
         /* --- RESET E BASE --- */
@@ -67,16 +67,13 @@
         h1, h2, h3 { font-family: var(--font-heading); font-weight: normal; }
         
         h1 { font-size: 2.2rem; margin-bottom: 10px; text-transform: none; }
-        h2 { font-size: 1.5rem; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;}
+        h2 { font-size: 1.5rem; margin-bottom: 15px; } /* Linha cinza removida */
 
         /* --- LAYOUT GERAL --- */
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: var(--radius);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            background: transparent;
         }
 
         /* --- FORMULÁRIOS E INPUTS --- */
@@ -87,16 +84,16 @@
         label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text-main); position: relative; }
         input, select, textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid var(--border-color);
-            border-radius: var(--radius);
+            border-radius: 10px;
             font-family: var(--font-body);
-            font-size: 0.95rem;
+            font-size: 1rem;
             background: #fff;
-            transition: border 0.3s;
+            transition: all 0.2s;
         }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-color); }
-        input[readonly] { background-color: var(--bg-color); color: var(--text-muted); cursor: not-allowed; font-weight: bold; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--text-muted); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
+        input[readonly] { background-color: #F9F9F9; color: var(--text-muted); cursor: not-allowed; font-weight: bold; }
         
         .checkbox-group { display: flex; align-items: center; gap: 8px; margin-top: 10px;}
         .checkbox-group input { width: auto; transform: scale(1.2); cursor: pointer; }
@@ -107,23 +104,24 @@
             color: #fff;
             border: none;
             padding: 10px 20px;
-            border-radius: var(--radius);
+            border-radius: 10px;
             cursor: pointer;
             font-family: var(--font-body);
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             transition: all 0.2s;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
         }
-        .btn:hover { background: var(--accent-hover); }
+        .btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+        .btn:active { transform: translateY(0); }
         .btn-outline { background: transparent; color: var(--accent-color); border: 1px solid var(--accent-color); }
-        .btn-outline:hover { background: var(--bg-color); }
+        .btn-outline:hover { background: #E5E5EA; }
         .btn-danger { background: transparent; color: var(--danger-color); border: 1px solid var(--danger-color); }
-        .btn-danger:hover { background: #ffebeb; }
-        .btn-small { padding: 6px 12px; font-size: 0.8rem; }
+        .btn-danger:hover { background: #FFEBEB; }
+        .btn-small { padding: 6px 14px; font-size: 0.85rem; }
         .btn-icon { background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 0 5px; color: var(--text-main); }
         .btn-icon:hover { transform: scale(1.1); }
 
@@ -153,7 +151,7 @@
         /* --- MODAIS COMPARTILHADOS --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 1000;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 1000;
             display: flex; justify-content: center; align-items: center;
             padding: 20px;
         }
@@ -163,15 +161,16 @@
             max-height: 90vh; overflow-y: auto;
             position: relative;
             display: flex; flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; flex-shrink: 0;}
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-shrink: 0;}
         .modal-header h2 { margin: 0; border: none; padding: 0; }
-        .close-btn { background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); }
-        .close-btn:hover { color: var(--danger-color); }
+        .close-btn { background: #F2F2F7; border: none; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; color: var(--text-muted); transition: background 0.2s; }
+        .close-btn:hover { background: #E5E5EA; color: var(--text-main); }
         
         .table-wrap { overflow-x: auto; width: 100%; border: 1px solid var(--border-color); border-radius: var(--radius); margin-bottom: 15px; }
-        .data-table { width: 100%; min-width: max-content; border-collapse: collapse; font-size: 0.85rem; }
-        .data-table th, .data-table td { padding: 12px; border-bottom: 1px solid var(--border-color); text-align: left; vertical-align: middle; }
+        .data-table { width: 100%; min-width: max-content; border-collapse: collapse; font-size: 0.9rem; }
+        .data-table th, .data-table td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); text-align: left; vertical-align: middle; }
         .data-table th { background: var(--bg-color); position: sticky; top: -1px; z-index: 2; box-shadow: 0 1px 0 var(--border-color); }
         .actions-cell { white-space: nowrap; text-align: right; }
 
@@ -182,38 +181,39 @@
         .client-list-table th:nth-child(4), .client-list-table td:nth-child(4) { width: 18%; text-align: right; }
 
         .backup-tools {
-            margin-bottom: 20px; display: flex; gap: 10px; background: #fff; padding: 15px; 
-            border-radius: var(--radius); border: 1px solid var(--border-color); flex-wrap: wrap; align-items: center; flex-shrink: 0;
+            margin-bottom: 20px; display: flex; gap: 10px; background: var(--bg-color); padding: 15px; 
+            border-radius: var(--radius); flex-wrap: wrap; align-items: center; flex-shrink: 0;
         }
 
         /* --- FRETES DROPDOWN --- */
         .frete-dropdown {
             display: none; position: absolute; top: 100%; left: 0; background: #fff;
             border: 1px solid var(--border-color); border-radius: var(--radius); padding: 5px;
-            z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 160px; margin-top: 5px; font-weight: normal;
+            z-index: 10; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 160px; margin-top: 5px; font-weight: normal;
         }
-        .frete-dropdown a { display: block; padding: 8px; color: var(--text-main); text-decoration: none; font-size: 0.85rem; border-bottom: 1px solid #f0f0f0; }
+        .frete-dropdown a { display: block; padding: 10px; color: var(--text-main); text-decoration: none; font-size: 0.9rem; border-bottom: 1px solid var(--bg-color); }
         .frete-dropdown a:last-child { border-bottom: none; }
-        .frete-dropdown a:hover { background: #fafafa; color: var(--accent-hover); }
+        .frete-dropdown a:hover { background: var(--bg-color); color: var(--accent-hover); border-radius: 6px; }
 
-        /* --- SEÇÕES ESPECÍFICAS --- */
+        /* --- SEÇÕES ESPECÍFICAS (Cartões Estilo iOS) --- */
         .section-box {
-            background: var(--bg-color);
-            padding: 20px;
+            background: var(--card-bg);
+            padding: 25px;
             border-radius: var(--radius);
-            margin-bottom: 30px;
-            border: 1px solid var(--border-color);
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
         }
         
-        .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;}
+        .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .header-section h2 { margin: 0; border: none; padding: 0; }
         
         .item-card {
-            background: #fff;
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 20px;
+            padding: 25px;
             border-radius: var(--radius);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
         }
         .item-actions {
             display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;
@@ -222,35 +222,32 @@
 
         .medidas-container { display: flex; align-items: flex-end; gap: 10px; }
         .medidas-container > div { flex: 1; }
-        .swap-btn { margin-bottom: 2px; background: #e4e4e4; color: #333; padding: 10px; border-radius: 5px; border: none; cursor: pointer; }
-        .swap-btn:hover { background: #d0d0d0; }
+        .swap-btn { margin-bottom: 2px; background: var(--border-color); color: var(--text-main); padding: 12px; border-radius: 10px; border: none; cursor: pointer; transition: background 0.2s;}
+        .swap-btn:hover { background: #D1D1D6; }
 
-        .table-responsive { overflow-x: auto; margin-bottom: 20px; }
-        table.resume-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9rem; }
-        table.resume-table th, table.resume-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border-color); }
-        table.resume-table th { font-weight: 600; color: var(--text-muted); background: var(--bg-color); }
+        .table-responsive { overflow-x: auto; margin-bottom: 20px; background: var(--card-bg); border-radius: var(--radius); padding: 10px 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        table.resume-table { width: 100%; border-collapse: collapse; font-size: 1rem; } /* Padrão nivelado aos inputs */
+        table.resume-table th, table.resume-table td { padding: 15px 10px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        table.resume-table tr:last-child td { border-bottom: none; }
+        table.resume-table th { font-weight: 600; color: var(--text-muted); background: transparent; border-bottom: 2px solid var(--border-color); }
         td.money { text-align: right; font-weight: 600; }
         th.money { text-align: right; }
 
         .totals-box {
             background: var(--accent-color);
             color: #fff;
-            padding: 20px;
+            padding: 25px;
             border-radius: var(--radius);
-            margin-top: 20px;
+            margin-top: 0;
             width: 350px;
             margin-left: auto;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
-        .totals-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; }
+        .totals-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 1rem; }
         .totals-row.grand-total { font-size: 1.3rem; font-weight: 700; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2); }
 
         .logo-btn { cursor: pointer; transition: transform 0.2s; }
         .logo-btn:hover { transform: scale(1.02); }
-
-        details > summary { list-style: none; }
-        details > summary::-webkit-details-marker { display: none; }
-        .details-arrow { transition: transform 0.2s ease; display: inline-block; font-size: 0.75rem; color: var(--text-muted); }
-        details[open] > summary .details-arrow { transform: rotate(180deg); }
 
         .print-only { display: none; }
 
@@ -261,89 +258,101 @@
         .modal-footer-fixed {
             position: sticky; bottom: -30px; background: var(--card-bg); 
             display: flex; justify-content: space-between; align-items: center; 
-            font-size: 0.85rem; color: var(--text-muted); 
-            padding: 15px 0 30px 0; border-top: 1px solid var(--border-color); 
+            font-size: 0.9rem; color: var(--text-muted); 
+            padding: 20px 0 30px 0; border-top: 1px solid var(--border-color); 
             z-index: 10; margin-top: 15px; margin-bottom: -30px;
         }
 
-        /* --- MELHORIAS MOBILE --- */
+        /* --- MELHORIAS MOBILE (ESTÉTICA NATIVA APP APPLE) --- */
         @media (max-width: 768px) {
-            h1 { font-size: 1.8rem; }
-            h2 { font-size: 1.3rem; margin-bottom: 10px; }
-            p { font-size: 0.9rem; }
+            body { padding: 10px; }
+            h1 { font-size: 1.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 5px; margin-left: 0;}
+            h2 { font-size: 1.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px; }
+            p { font-size: 0.95rem; }
             
-            .logo-btn { max-width: 80px !important; }
+            .logo-btn { max-width: 70px !important; }
 
-            /* Previne o zoom indesejado no iOS e melhora touch area */
-            input, select, textarea { font-size: 16px !important; padding: 12px; }
-            .btn { padding: 12px 20px; font-size: 1rem; min-height: 44px; }
-            .btn-small { min-height: 42px; padding: 8px 14px; }
+            /* Previne o zoom indesejado no iOS e ajusta estetica 1 linha */
+            input, select, textarea { font-size: 16px !important; padding: 14px; border-radius: 12px;}
+            
+            /* Botões inlines, padronizados e compactos */
+            .btn { padding: 10px 16px; font-size: 0.95rem; min-height: 40px; width: auto !important; display: inline-flex; border-radius: 12px; }
+            .btn-small { min-height: 36px; padding: 8px 14px; font-size: 0.9rem; }
 
-            .section-box { padding: 15px; margin-bottom: 20px; }
-            .container { padding: 15px; border-radius: 0; }
+            .section-box { padding: 20px; margin-bottom: 15px; border-radius: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.04);}
+            .item-card { padding: 20px; border-radius: 16px; margin-bottom: 15px; }
             
-            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; gap: 15px; margin-bottom: 15px; }
-            .medidas-container { flex-wrap: wrap; }
+            /* Estética 1 campo por linha (App-like) para não cortar texto */
+            .grid-2, .grid-3, .grid-4 { display: flex; flex-direction: column; gap: 15px; margin-bottom: 15px; }
+            .grid-2 > div, .grid-3 > div, .grid-4 > div { width: 100%; }
             
-            .totals-box { width: 100%; padding: 15px; }
-            .totals-row.grand-total { font-size: 1.15rem; }
+            /* Exceção necessária para manter W x H usáveis na mesma linha */
+            .medidas-container { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: flex-end; gap: 10px; }
+            .medidas-container > div { flex: 1; min-width: 0; }
             
-            .header-section { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .header-section .actions-group { width: 100%; display: flex; flex-direction: column; gap: 10px; }
-            .header-section .actions-group .btn { width: 100%; justify-content: center; }
+            .totals-box { width: 100%; padding: 20px; border-radius: 16px; }
+            .totals-row.grand-total { font-size: 1.2rem; }
+            
+            .header-section { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px; }
+            .header-section h2 { width: 100%; margin-bottom: 0; }
+            .header-section .actions-group { width: 100%; display: flex; flex-direction: row; flex-wrap: wrap; gap: 8px; justify-content: flex-start; }
             
             .modal-overlay { padding: 10px; }
-            .modal-content { padding: 15px; }
+            .modal-content { padding: 20px; border-radius: 20px; }
             
-            .backup-tools { flex-direction: column; align-items: stretch; gap: 10px; }
-            .backup-tools .btn { width: 100%; justify-content: center; margin: 0; }
-            .backup-tools span { text-align: center; margin: 0 auto !important; }
+            .backup-tools { flex-direction: row; flex-wrap: wrap; gap: 8px; justify-content: flex-start; border-radius: 12px;}
+            .backup-tools span { margin: 0 !important; }
             
-            .search-container { max-width: 100%; }
-            .modal-footer-fixed { bottom: -15px; padding-bottom: 15px; margin-bottom: -15px; flex-direction: column; gap: 10px; align-items: flex-start; }
+            .search-container { max-width: 100%; width: 100%; }
+            .modal-footer-fixed { bottom: -20px; padding-bottom: 20px; margin-bottom: -20px; flex-direction: column; gap: 10px; align-items: flex-start; }
             
-            /* Botões do final em coluna */
-            .actions-bottom { flex-direction: column; gap: 15px; }
-            .actions-bottom .btn { width: 100%; margin: 0; justify-content: center; }
+            .item-actions { flex-direction: row; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+            
+            /* Tabela de resumo padronizada no mobile */
+            .table-responsive { padding: 15px 10px; border-radius: 16px;}
+            table.resume-table { font-size: 16px; }
+            table.resume-table th, table.resume-table td { padding: 10px 5px; }
 
-            .item-card { padding: 15px; }
-            .item-actions { flex-direction: column; gap: 10px; }
-            .item-actions .btn { width: 100%; justify-content: center; }
+            /* Ações do final do formulário */
+            .actions-bottom { flex-direction: row; flex-wrap: wrap; gap: 10px; justify-content: space-between; padding: 0 10px; }
+            .actions-bottom .btn { flex: 1; min-width: 140px; text-align: center; justify-content: center; }
         }
 
-        /* --- CSS MODO IMPRESSÃO (OTIMIZADO PARA 1 PÁGINA) --- */
+        /* --- CSS MODO IMPRESSÃO (OTIMIZADO PARA 1 PÁGINA A4) --- */
         @media print {
-            body { background: #fff; padding: 0; font-size: 12px; }
-            .container { box-shadow: none; padding: 0; max-width: 100%; border: none; }
-            .no-print, button, .item-card, .modal-overlay, .actions-bottom { display: none !important; }
+            body { background: #fff; padding: 0; font-size: 11px; } /* Fonte base alinhada */
+            .container { box-shadow: none; padding: 0; max-width: 100%; border: none; background: #fff;}
+            .no-print, button, .item-card, .modal-overlay, .actions-bottom, .section-box { display: none !important; }
             .print-only { display: block; }
             
-            .print-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-bottom: 15px; }
-            .print-logo img { max-width: 110px; }
+            .print-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--accent-color); padding-bottom: 8px; margin-bottom: 12px; }
+            .print-logo img { max-width: 95px; } 
             .print-info { text-align: right; font-size: 10px; color: var(--text-muted); }
-            .print-info strong { color: var(--text-main); font-size: 12px; }
+            .print-info strong { color: var(--text-main); font-size: 11px; }
             
-            h2 { font-size: 15px; margin-bottom: 8px; border-bottom-width: 1px; padding-bottom: 2px; }
-            p { margin-bottom: 3px; }
+            /* Títulos sem linha e proporcionais */
+            h2 { font-size: 14px; margin-bottom: 6px; border: none !important; padding-bottom: 0; }
+            p { margin-bottom: 2px; }
             
-            div[style*="margin-bottom: 30px"] { margin-bottom: 15px !important; }
+            div[style*="margin-bottom: 30px"] { margin-bottom: 10px !important; }
             
-            table.resume-table { border: 1px solid var(--border-color); margin-top: 5px; }
-            table.resume-table th, table.resume-table td { padding: 8px 10px; font-size: 11px; }
+            /* Tabela com mesmo tamanho de fonte do texto do cliente */
+            table.resume-table { border: 1px solid var(--border-color); margin-top: 8px; }
+            table.resume-table th, table.resume-table td { padding: 6px 8px; font-size: 11px; } 
             table.resume-table th { background: #f9f9f9 !important; color: #000 !important; }
             
-            .totals-box { padding: 12px; margin-top: 15px; width: 300px; }
-            .totals-row { font-size: 11px; margin-bottom: 4px; }
-            .totals-row.grand-total { font-size: 14px; margin-top: 8px; padding-top: 8px; }
+            .totals-box { padding: 10px; margin-top: 10px; width: 240px; box-shadow: none; border: 1px solid var(--border-color); background: #fafafa; }
+            .totals-row { font-size: 11px; margin-bottom: 4px; color: #000; }
+            .totals-row.grand-total { font-size: 14px; margin-top: 6px; padding-top: 6px; }
             
-            .print-footer { margin-top: 25px; padding-top: 10px; border-top: 1px solid var(--border-color); page-break-inside: avoid; }
+            .print-footer { margin-top: 15px; padding-top: 10px; border-top: 1px solid var(--border-color); page-break-inside: avoid; }
             
-            .signature-area { display: flex; justify-content: space-around; align-items: flex-end; margin-top: 40px; gap: 20px; }
-            .signature-box { display: flex; flex-direction: column; align-items: center; width: 45%; max-width: 250px; }
-            .signature-box img { max-width: 140px; margin-bottom: 5px; display: block; }
-            .signature-line { border-top: 1px solid var(--text-main); margin-top: 5px; padding-top: 8px; font-size: 10px; text-align: center; width: 100%; line-height: 1.3; }
+            .signature-area { display: flex; justify-content: space-around; align-items: flex-end; margin-top: 25px; gap: 15px; }
+            .signature-box { display: flex; flex-direction: column; align-items: center; width: 45%; max-width: 220px; }
+            .signature-box img { max-width: 110px; margin-bottom: 2px; display: block; }
+            .signature-line { border-top: 1px solid var(--text-main); margin-top: 2px; padding-top: 4px; font-size: 9px; text-align: center; width: 100%; line-height: 1.2; }
             
-            .quote-container { text-align: center; margin: 25px auto 10px auto; width: 70%; font-style: italic; font-size: 11px; color: var(--text-muted); }
+            .quote-container { text-align: center; margin: 15px auto 0 auto; width: 80%; font-style: italic; font-size: 10px; color: var(--text-muted); }
         }
     </style>
 </head>
@@ -461,9 +470,9 @@
             <button onclick="fecharModalClientes()" class="close-btn">&times;</button>
         </div>
         
-        <div style="background: var(--bg-color); padding: 20px; border-radius: var(--radius); margin-bottom: 20px; border: 1px solid var(--border-color); flex-shrink: 0;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
-                <h3 id="modal-client-title" style="font-size: 1.1rem; margin: 0;">Adicionar novo cliente</h3>
+        <div style="background: var(--bg-color); padding: 25px; border-radius: var(--radius); margin-bottom: 20px; flex-shrink: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                <h3 id="modal-client-title" style="font-size: 1.15rem; margin: 0;">Adicionar novo cliente</h3>
                 <div class="checkbox-group" style="margin: 0;">
                     <input type="checkbox" id="modal-cliente-fixo">
                     <label for="modal-cliente-fixo" style="margin:0; cursor:pointer;">Cliente Fixo / Recorrente ★</label>
@@ -483,7 +492,7 @@
                 <div>
                     <label>Telefone</label>
                     <div style="display: flex; gap: 8px;">
-                        <select id="modal-cliente-ddi" style="width: 100px; flex-shrink: 0;" onchange="aplicarMascaraTelefone({target: document.getElementById('modal-cliente-tel')})">
+                        <select id="modal-cliente-ddi" style="width: 90px; flex-shrink: 0;" onchange="aplicarMascaraTelefone({target: document.getElementById('modal-cliente-tel')})">
                             <option value="+55">🇧🇷 +55</option>
                             <option value="+1">🇺🇸 +1</option>
                             <option value="+351">🇵🇹 +351</option>
@@ -497,7 +506,7 @@
                             <option value="+57">🇨🇴 +57</option>
                             <option value="+52">🇲🇽 +52</option>
                         </select>
-                        <input type="text" id="modal-cliente-tel" placeholder="(00) 00000-0000" maxlength="20" oninput="aplicarMascaraTelefone(event)" onpaste="handlePasteTelefone(event)">
+                        <input type="text" id="modal-cliente-tel" style="flex: 1; min-width: 0;" placeholder="(00) 00000-0000" maxlength="20" oninput="aplicarMascaraTelefone(event)" onpaste="handlePasteTelefone(event)">
                     </div>
                 </div>
             </div>
@@ -531,7 +540,7 @@
                 <div>
                     <label>Categoria <small>(Interno)</small></label>
                     <div style="display:flex; gap:5px;">
-                        <select id="modal-cliente-cat">
+                        <select id="modal-cliente-cat" style="flex: 1; min-width: 0;">
                             <option value="">Sem categoria</option>
                         </select>
                         <button type="button" class="btn btn-outline btn-small" onclick="abrirModalCategorias()" title="Gerenciar Categorias" style="padding: 0 10px;">⚙️</button>
@@ -542,8 +551,8 @@
                 <div>
                     <label>Instagram <small>(Interno)</small></label>
                     <div style="display: flex;">
-                        <span style="padding: 10px 15px; background: #eee; border: 1px solid var(--border-color); border-right: none; border-radius: var(--radius) 0 0 var(--radius); color: #555; font-weight: bold;">@</span>
-                        <input type="text" id="modal-cliente-ig" placeholder="usuario" style="border-radius: 0 var(--radius) var(--radius) 0;" onblur="extrairInstagram(this)">
+                        <span style="padding: 12px 15px; background: #E5E5EA; border: 1px solid var(--border-color); border-right: none; border-radius: 10px 0 0 10px; color: #555; font-weight: bold; display: flex; align-items: center;">@</span>
+                        <input type="text" id="modal-cliente-ig" style="flex: 1; min-width: 0; border-radius: 0 10px 10px 0;" placeholder="usuario" onblur="extrairInstagram(this)">
                     </div>
                 </div>
                 <div>
@@ -552,22 +561,22 @@
                 </div>
             </div>
 
-            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;">
-                <button class="btn btn-danger btn-small" id="btn-delete-edit-client" style="display:none;" onclick="apagarClienteSendoEditado()">🗑 Apagar contato</button>
-                <button class="btn btn-outline btn-small" id="btn-cancel-edit-client" style="display:none;" onclick="cancelarEdicaoClienteModal()">Cancelar edição</button>
-                <button class="btn btn-small" onclick="salvarClienteModal()">💾 Salvar no banco</button>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; margin-top: 20px;">
+                <button class="btn btn-danger btn-small" id="btn-delete-edit-client" style="display:none;" onclick="apagarClienteSendoEditado()">🗑 Apagar</button>
+                <button class="btn btn-outline btn-small" id="btn-cancel-edit-client" style="display:none;" onclick="cancelarEdicaoClienteModal()">Cancelar</button>
+                <button class="btn btn-small" onclick="salvarClienteModal()">💾 Salvar</button>
             </div>
         </div>
 
         <div class="backup-tools" style="justify-content: space-between; flex-shrink: 0;">
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <button class="btn btn-small btn-dark" onclick="exportarClientes('json')">📥 Backup JSON</button>
-                <button class="btn btn-small btn-excel" onclick="exportarClientes('csv')">📊 Backup CSV</button>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="btn btn-small btn-dark" onclick="exportarClientes('json')">📥 JSON</button>
+                <button class="btn btn-small btn-excel" onclick="exportarClientes('csv')">📊 CSV</button>
                 <input type="file" id="import-client" style="display:none;" onchange="importarClientes(event)" accept=".json,.csv">
                 <button class="btn btn-small btn-import" onclick="document.getElementById('import-client').click()">📤 Importar</button>
             </div>
             <div class="search-container">
-                <input type="text" id="busca-cliente" placeholder="🔍 Buscar cliente..." oninput="renderListClientes(this.value)" style="padding: 8px; padding-right: 30px;" required>
+                <input type="text" id="busca-cliente" placeholder="🔍 Buscar cliente..." oninput="renderListClientes(this.value)" style="padding-right: 30px;" required>
                 <button class="search-clear" type="button" onclick="document.getElementById('busca-cliente').value=''; renderListClientes();">&times;</button>
             </div>
         </div>
@@ -577,8 +586,8 @@
         <div id="client-list-container" style="overflow-y: auto; flex-grow: 1; padding-right: 5px; min-height: 250px;"></div>
         
         <div class="modal-footer-fixed">
-            <button class="btn btn-outline btn-small" style="color: var(--danger-color); border-color: var(--danger-color);" onclick="limparTodosClientesAdmin()">🗑 Apagar todos os contatos</button>
-            <div>Total de clientes filtrados: <strong id="total-clientes-footer" style="color: var(--text-main); font-size: 1rem;">0</strong></div>
+            <button class="btn btn-outline btn-small" style="color: var(--danger-color); border-color: var(--danger-color);" onclick="limparTodosClientesAdmin()">🗑 Apagar contatos</button>
+            <div>Total de clientes filtrados: <strong id="total-clientes-footer" style="color: var(--text-main); font-size: 1.1rem;">0</strong></div>
         </div>
         
     </div>
@@ -592,8 +601,8 @@
         </div>
         <div class="modal-body">
             
-            <div style="background: var(--bg-color); padding: 20px; border-radius: var(--radius); margin-bottom: 25px; border: 1px solid var(--border-color);">
-                <h3 id="modal-frase-title" style="font-size: 1.1rem; margin-bottom: 15px;">Adicionar nova frase</h3>
+            <div style="background: var(--bg-color); padding: 25px; border-radius: var(--radius); margin-bottom: 25px;">
+                <h3 id="modal-frase-title" style="font-size: 1.15rem; margin-bottom: 15px;">Adicionar nova frase</h3>
                 <input type="hidden" id="modal-frase-id">
                 
                 <div class="grid-2">
@@ -605,9 +614,9 @@
                         <label>Autor</label>
                         <input type="text" id="nova-frase-autor" placeholder="Ex: Antoine de Saint-Exupéry">
                     </div>
-                    <div style="display: flex; gap: 10px; align-items: flex-end; justify-content: flex-end;">
-                        <button class="btn btn-outline btn-small" id="btn-cancel-edit-frase" style="display:none;" onclick="cancelarEdicaoFrase()">Cancelar edição</button>
-                        <button class="btn" onclick="salvarFraseModal()">💾 Salvar frase</button>
+                    <div style="display: flex; gap: 8px; align-items: flex-end; justify-content: flex-end;">
+                        <button class="btn btn-outline btn-small" id="btn-cancel-edit-frase" style="display:none;" onclick="cancelarEdicaoFrase()">Cancelar</button>
+                        <button class="btn btn-small" onclick="salvarFraseModal()">💾 Salvar</button>
                     </div>
                 </div>
             </div>
@@ -635,10 +644,10 @@
             <h1>Orçamento</h1>
             <p style="color: var(--text-muted);">Geração de cotação - Fine Art & Canvas</p>
         </div>
-        <img src="CREVO_Logo_2025.png" alt="CREVO Studio" class="logo-btn" style="max-width: 120px; border-radius: 4px;" onerror="this.style.display='none'" onclick="abrirModalPwd()" title="Área Restrita">
+        <img src="CREVO_Logo_2025.png" alt="CREVO Studio" class="logo-btn" style="max-width: 120px; border-radius: 8px;" onerror="this.style.display='none'" onclick="abrirModalPwd()" title="Área Restrita">
     </div>
 
-    <div class="no-print" style="margin-bottom: 30px; padding: 15px 20px; border-radius: var(--radius); border: 1px solid var(--border-color); background: #fff;">
+    <div class="no-print section-box">
         <div class="grid-2" style="margin-bottom: 0;">
             <div>
                 <label>Nº do orçamento</label>
@@ -684,10 +693,10 @@
     <div class="section-box no-print">
         <div class="header-section">
             <h2>Dados do cliente</h2>
-            <div class="actions-group" style="display: flex; gap: 10px;">
+            <div class="actions-group">
                 <button class="btn btn-danger btn-small" onclick="limparDadosCliente()" title="Limpar formulário atual">🧹 Limpar</button>
-                <button class="btn btn-outline btn-small" onclick="salvarClienteAtual()" title="Salvar esses dados no Banco">💾 Salvar/Atualizar</button>
-                <button class="btn btn-small" onclick="abrirModalClientes()">👥 Gerenciador de clientes</button>
+                <button class="btn btn-outline btn-small" onclick="salvarClienteAtual()" title="Salvar esses dados no Banco">💾 Atualizar</button>
+                <button class="btn btn-small" onclick="abrirModalClientes()">👥 Clientes</button>
             </div>
         </div>
         
@@ -705,7 +714,7 @@
             <div>
                 <label>Telefone</label>
                 <div style="display: flex; gap: 8px;">
-                    <select id="cliente-ddi" style="width: 110px; flex-shrink: 0;" onchange="syncClientData(); aplicarMascaraTelefone({target: document.getElementById('cliente-tel')})">
+                    <select id="cliente-ddi" style="width: 90px; flex-shrink: 0;" onchange="syncClientData(); aplicarMascaraTelefone({target: document.getElementById('cliente-tel')})">
                         <option value="+55">🇧🇷 +55</option>
                         <option value="+1">🇺🇸 +1</option>
                         <option value="+351">🇵🇹 +351</option>
@@ -719,7 +728,7 @@
                         <option value="+57">🇨🇴 +57</option>
                         <option value="+52">🇲🇽 +52</option>
                     </select>
-                    <input type="text" id="cliente-tel" placeholder="(00) 00000-0000" maxlength="20" oninput="aplicarMascaraTelefone(event)" onpaste="handlePasteTelefone(event)">
+                    <input type="text" id="cliente-tel" style="flex: 1; min-width: 0;" placeholder="(00) 00000-0000" maxlength="20" oninput="aplicarMascaraTelefone(event)" onpaste="handlePasteTelefone(event)">
                 </div>
             </div>
             <div>
@@ -752,14 +761,16 @@
     </div>
 
     <div class="no-print">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <div class="header-section" style="margin-top: 30px;">
             <h2>Itens do pedido</h2>
-            <button class="btn" onclick="adicionarItem()">+ Adicionar item</button>
+            <div class="actions-group">
+                <button class="btn btn-small" onclick="adicionarItem()">+ Adicionar item</button>
+            </div>
         </div>
         <div id="items-container"></div>
     </div>
 
-    <h2 style="margin-top: 30px;">Resumo dos itens</h2>
+    <h2 class="print-only">Resumo dos itens</h2>
     <div class="table-responsive">
         <table class="resume-table">
             <thead>
@@ -769,14 +780,14 @@
         </table>
     </div>
 
-    <div class="grid-2 no-print" style="margin-top: 20px;">
+    <div class="grid-2 no-print" style="margin-top: 25px;">
         <div class="section-box" style="margin-bottom: 0;">
             <h2>Ajustes financeiros</h2>
             <div class="grid-2">
                 <div>
                     <label>Cupom de desconto</label>
                     <input type="text" id="input-desconto" placeholder="Ex: CREVO10" oninput="updateAll()" style="text-transform: uppercase;">
-                    <small id="msg-cupom" style="font-weight: bold; display: block; margin-top: 4px;"></small>
+                    <small id="msg-cupom" style="font-weight: bold; display: block; margin-top: 6px;"></small>
                 </div>
                 <div><label>Acréscimo (R$)</label><input type="number" id="valor-acrescimo" value="0" min="0" step="0.01" oninput="updateAll()"></div>
             </div>
@@ -785,7 +796,7 @@
         <div class="totals-box">
             <div class="totals-row"><span>Subtotal Impressão:</span><span id="tot-impressao">R$ 0,00</span></div>
             <div class="totals-row"><span>Subtotal Molduras:</span><span id="tot-moldura">R$ 0,00</span></div>
-            <div class="totals-row" style="color: var(--success-color); display: none;" id="row-desc"><span>Desconto:</span><span id="tot-desc">- R$ 0,00</span></div>
+            <div class="totals-row" style="color: #A8E6CF; display: none;" id="row-desc"><span>Desconto:</span><span id="tot-desc">- R$ 0,00</span></div>
             <div class="totals-row" style="display: none;" id="row-acres"><span>Acréscimo:</span><span id="tot-acres">+ R$ 0,00</span></div>
             <div class="totals-row" style="display: none;" id="row-frete"><span>Frete:</span><span id="tot-frete">+ R$ 0,00</span></div>
             <div class="totals-row grand-total"><span>TOTAL GERAL:</span><span id="tot-geral">R$ 0,00</span></div>
@@ -795,7 +806,9 @@
     <div class="no-print section-box" style="margin-top: 30px;">
         <div class="header-section">
             <h2>Mensagem de rodapé</h2>
-            <button class="btn btn-outline btn-small" onclick="abrirModalFrases()">✏️ Gerenciar frases</button>
+            <div class="actions-group">
+                <button class="btn btn-outline btn-small" onclick="abrirModalFrases()">✏️ Gerenciar frases</button>
+            </div>
         </div>
         <label>Escolha a frase para este orçamento:</label>
         <select id="frase-selecionada" style="font-style: italic;"></select>
@@ -803,7 +816,7 @@
 
     <div class="print-only">
         <div style="display: flex; justify-content: flex-end;">
-            <div class="totals-box" style="margin-right: 0; background: var(--bg-color); color: var(--text-main); border: 1px solid var(--border-color);">
+            <div class="totals-box" style="margin-right: 0;">
                 <div class="totals-row"><span>Subtotal Impressão:</span><span id="print-tot-impressao">R$ 0,00</span></div>
                 <div class="totals-row"><span>Subtotal Molduras:</span><span id="print-tot-moldura">R$ 0,00</span></div>
                 <div class="totals-row" style="color: var(--success-color); display: none;" id="print-row-desc"><span>Desconto:</span><span id="print-tot-desc">- R$ 0,00</span></div>
@@ -836,9 +849,9 @@
         <div class="quote-container" id="quote-footer"></div>
     </div>
 
-    <div class="no-print actions-bottom" style="margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; justify-content: space-between;">
-        <button class="btn btn-danger" onclick="limparTudo()">🗑 Limpar orçamento</button>
-        <button class="btn" onclick="imprimirPDF()" style="font-size: 1.1rem; padding: 15px 30px;">📄 Imprimir / Salvar PDF</button>
+    <div class="no-print actions-bottom" style="margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+        <button class="btn btn-danger" onclick="limparTudo()">🗑 Limpar tudo</button>
+        <button class="btn" onclick="imprimirPDF()" style="font-size: 1.1rem; padding: 14px 28px;">📄 Salvar PDF</button>
     </div>
 
 </div>
@@ -1593,7 +1606,7 @@
                             parsed.push({
                                 id: parseInt(obj.ID) || Date.now() + i,
                                 nome: obj.Nome, email: obj.Email, tel: parsedTel,
-                                doc: obj.Documento, cep: obj.CEP, endereco: obj.Cidade, cidade: obj.Cidade,
+                                doc: obj.Documento, cep: obj.CEP, endereco: obj.Endereco, cidade: obj.Cidade,
                                 ddi: parsedDDI, categoria: obj.Categoria, ig: obj.Instagram, observacao: obj.Observacao,
                                 fixo: obj.ClienteFixo === 'Sim'
                             });
@@ -2033,24 +2046,20 @@
         const originalTitle = document.title;
         const nomeCliente = document.getElementById('cliente-nome').value.trim();
         const nomeArquivo = nomeCliente ? `Orcamento-${nomeCliente.replace(/\s+/g, '-')}-CREVO` : `Orcamento-Cliente-CREVO`;
-        
-        // Aplica o novo título da página para forçar o nome do arquivo gerado
         document.title = nomeArquivo;
 
-        // O timeout é crucial no mobile para dar tempo do navegador entender a mudança do <title>
         setTimeout(() => {
             window.print();
             
-            // Listener que restaura o título assim que a tela de impressão é fechada (funciona bem em desktop/android)
             window.addEventListener('afterprint', function onAfterPrint() {
                 document.title = originalTitle;
                 window.removeEventListener('afterprint', onAfterPrint);
             });
 
-            // Fallback forte para iOS Safari, que costuma ignorar eventos de impressão
             setTimeout(() => { document.title = originalTitle; }, 3000);
         }, 300);
     };
 </script>
+<br><br>
 </body>
 </html>
