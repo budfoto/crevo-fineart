@@ -10,379 +10,161 @@
     <link rel="icon" href="favicon_claro.jpg" media="(prefers-color-scheme: light)" type="image/jpg">
     <link rel="icon" href="favicon_noturno.jpg" media="(prefers-color-scheme: dark)" type="image/jpg">
 
+    <link rel="stylesheet" href="style.css">
+
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-    <style>
-        /* --- FONTES LOCAIS --- */
-        @font-face { font-family: 'TAN-Buster'; src: url('TAN-BUSTER.ttf') format('truetype'); font-weight: normal; font-style: normal; }
-        @font-face { font-family: 'Manrope'; src: url('manrope-regular.otf') format('opentype'); font-weight: 400; }
-        @font-face { font-family: 'Manrope'; src: url('manrope-medium.otf') format('opentype'); font-weight: 500; }
-        @font-face { font-family: 'Manrope'; src: url('manrope-semibold.otf') format('opentype'); font-weight: 600; }
-        @font-face { font-family: 'Manrope'; src: url('manrope-bold.otf') format('opentype'); font-weight: 700; }
-
-        /* --- VARIÁVEIS DE COR E ESTÉTICA APPLE --- */
-        :root {
-            --bg-color: #F2F2F7;
-            --card-bg: #FFFFFF;
-            --text-main: #1C1C1E;
-            --text-muted: #8E8E93;
-            --border-color: #E5E5EA;
-            --accent-color: #1C1C1E;
-            --accent-hover: #3A3A3C;
-            --danger-color: #FF3B30;
-            --danger-bg: #FFE5E5;
-            --success-color: #34C759;
-            --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
-            --radius: 12px;
-        }
-
-        /* --- SCROLLBAR ESTILO MAC/IOS --- */
-        ::-webkit-scrollbar { width: 10px; height: 10px; }
-        ::-webkit-scrollbar-track { background: transparent; margin: 12px; }
-        ::-webkit-scrollbar-thumb { background: #D1D1D6; border-radius: 10px; border: 3px solid var(--card-bg); }
-        ::-webkit-scrollbar-thumb:hover { background: #AEAEB2; }
-
-        /* --- RESET E BASE --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { font-family: var(--font-body); background-color: var(--bg-color); color: var(--text-main); line-height: 1.5; padding: 24px; -webkit-font-smoothing: antialiased; }
-        h1, h2, h3 { font-family: var(--font-heading); font-weight: 800; text-transform: uppercase; letter-spacing: -0.5px; }
-        h1 { font-size: 2rem; margin-bottom: 10px; }
-        h2 { font-size: 1.3rem; margin-bottom: 20px; color: #000; }
-
-        .container { max-width: 1000px; margin: 0 auto; }
-
-        /* --- FORMULÁRIOS E INPUTS --- */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
-        
-        label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main); }
-        
-        input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="datetime-local"], select, textarea {
-            width: 100%; padding: 12px 14px; border: 1px solid var(--border-color);
-            border-radius: 10px; font-family: var(--font-body); font-size: 1rem;
-            background: #fff; transition: all 0.2s ease; color: var(--text-main);
-            appearance: none; -webkit-appearance: none; min-height: 44px;
-        }
-        
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--text-muted); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
-        input[readonly] { background-color: #F2F2F7; color: var(--text-muted); font-weight: 600; }
-        
-        select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238E8E93' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-position: right 14px center; background-size: 16px;
-            padding-right: 40px; cursor: pointer;
-        }
-
-        .checkbox-group { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
-        input[type="checkbox"] {
-            -webkit-appearance: auto;
-            appearance: auto;
-            width: 22px; height: 22px; cursor: pointer; border-radius: 6px; 
-            margin: 0; padding: 0; min-height: auto;
-        }
-
-        .ddi-wrapper { display: flex; gap: 8px; width: 100%; }
-        .ddi-select { width: 105px !important; flex-shrink: 0; padding-left: 10px; padding-right: 32px; }
-        .ddi-input { flex: 1; min-width: 0; }
-        
-        .medidas-container { display: flex; align-items: flex-end; gap: 8px; }
-        .medidas-input { max-width: 110px; }
-
-        /* --- BOTÕES --- */
-        .btn {
-            background: var(--accent-color); color: #fff; border: none; padding: 12px 20px; border-radius: 10px;
-            cursor: pointer; font-family: var(--font-body); font-weight: 700; font-size: 0.95rem; min-height: 44px;
-            transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .btn:hover { background: var(--accent-hover); transform: scale(0.98); }
-        .btn:active { transform: scale(0.95); }
-        .btn ion-icon { font-size: 20px; flex-shrink: 0; pointer-events: none; }
-        
-        .btn-outline { background: transparent; color: var(--accent-color); border: 1.5px solid var(--border-color); }
-        .btn-outline:hover { background: #E5E5EA; border-color: var(--text-muted); }
-        .btn-danger { background: var(--danger-bg); color: var(--danger-color); border: none; }
-        .btn-danger:hover { filter: brightness(0.95); }
-        .btn-small { padding: 8px 16px; font-size: 0.85rem; min-height: 38px; }
-        
-        .btn-icon { background: none; border: none; cursor: pointer; padding: 8px; color: var(--text-main); display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; transition: background 0.2s;}
-        .btn-icon:hover { background: #E5E5EA; }
-        .btn-icon ion-icon { font-size: 20px; pointer-events: none; }
-
-        /* --- MODAIS E CARDS --- */
-        .section-box { background: var(--card-bg); padding: 24px; border-radius: var(--radius); margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
-        .item-card { background: #FAFAFC; border: 1px solid var(--border-color); padding: 20px; border-radius: 12px; margin-bottom: 16px; }
-        .item-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color); }
-
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 1000; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: var(--card-bg); width: 100%; max-width: 1000px; border-radius: 20px; padding: 32px; max-height: 90vh; overflow-y: auto; overflow-x: hidden; position: relative; display: flex; flex-direction: column; box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
-        
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-shrink: 0;}
-        .modal-header h2 { margin: 0; }
-        .close-btn { background: var(--bg-color); border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-muted); transition: all 0.2s; }
-        .close-btn:hover { background: var(--border-color); color: var(--text-main); }
-        .close-btn ion-icon { font-size: 24px; pointer-events: none; }
-
-        .modal-footer-fixed { display: flex; justify-content: space-between; align-items: center; padding-top: 16px; margin-top: 16px; border-top: 1px solid var(--border-color); }
-
-        .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .header-section h2 { margin: 0; border: none; }
-
-        .swap-btn { background: var(--bg-color); color: var(--text-main); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); cursor: pointer; display: flex; align-items: center; justify-content: center; height: 44px; width: 44px; flex-shrink: 0;}
-        .swap-btn:hover { background: var(--border-color); }
-        .swap-btn ion-icon { font-size: 22px; pointer-events: none; }
-
-        .table-responsive { overflow-x: auto; background: var(--card-bg); border-radius: var(--radius); box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
-        table.resume-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
-        table.resume-table th, table.resume-table td { padding: 18px 20px; text-align: left; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
-        table.resume-table tr:last-child td { border-bottom: none; }
-        table.resume-table th { font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px; }
-        td.money, th.money { text-align: right; }
-        
-        .actions-cell { text-align: right; }
-        th.actions-cell { text-align: right; }
-        .actions-cell-flex { display: flex; justify-content: flex-end; gap: 8px; align-items: center; width: 100%; }
-
-        .totals-box { background: var(--accent-color); color: #fff; padding: 24px; border-radius: var(--radius); width: 360px; margin-left: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
-        .totals-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 1rem; font-weight: 500; }
-        .totals-row.grand-total { font-size: 1.4rem; font-weight: 800; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.2); }
-
-        .frete-dropdown { display: none; position: absolute; top: calc(100% + 5px); left: 0; background: #fff; border: 1px solid var(--border-color); border-radius: 12px; padding: 8px; z-index: 1060; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 180px; }
-        .frete-dropdown a { display: block; padding: 12px 14px; color: var(--text-main); text-decoration: none; font-size: 0.95rem; border-radius: 8px; font-weight: 500;}
-        .frete-dropdown a:hover { background: var(--bg-color); }
-
-        .logo-btn { cursor: pointer; transition: transform 0.2s; border-radius: 12px; }
-        .logo-btn:hover { transform: scale(1.04); }
-
-        /* Categorias Botões Nativos e Filtros */
-        .cat-tag { padding: 10px 16px; border-radius: 10px; border: 1px solid var(--border-color); cursor: pointer; font-size: 0.95rem; font-weight: 700; transition: all 0.2s; font-family: var(--font-body); display: inline-flex; align-items: center; justify-content: center; min-height: 44px; }
-        .cat-tag:hover { filter: brightness(0.95); transform: translateY(-1px); }
-
-        .scroll-arrow { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 50%; width: 36px; height: 36px; display: flex; justify-content: center; align-items: center; cursor: pointer; color: var(--text-main); flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: background 0.2s; }
-        .scroll-arrow:hover { background: var(--bg-color); }
-
-        .validade-text { margin-top: 6px; color: var(--text-muted); font-size: 0.9rem; }
-
-        .backup-tools { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; background: #EBF5FF; border: 1px solid #BBDEFB; padding: 20px; border-radius: var(--radius); margin-bottom: 24px;}
-        .backup-tools > span { flex-basis: 100%; margin-bottom: 16px; font-size: 0.9rem; color: #1565C0; }
-        .backup-tools-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; flex: 1; }
-        
-        .search-container { position: relative; max-width: 350px; flex-grow: 1; min-width: 250px;}
-        .search-container input { padding-right: 40px; border-radius: 12px; border-color: #BBDEFB; }
-        .search-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: #E5E5EA; border: none; border-radius: 50%; width: 24px; height: 24px; display: none; align-items: center; justify-content: center; cursor: pointer; color: var(--text-main); }
-        .search-container input:not(:placeholder-shown) + .search-clear { display: flex; }
-
-        /* --- COLLAPSIBLES E IOS LIST --- */
-        .header-collapsible { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: #fff; border-radius: 12px; cursor: pointer; border: 1px solid var(--border-color); transition: background 0.2s; }
-        .header-collapsible:hover { background: var(--bg-color); }
-        
-        .ios-list { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); }
-        .ios-list-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border-color); cursor: pointer; transition: background 0.2s; }
-        .ios-list-item:last-child { border-bottom: none; }
-        .ios-list-item:hover { background: var(--bg-color); }
-        .ios-list-title { font-weight: 600; font-size: 1.05rem; display: flex; align-items: center; gap: 8px;}
-        .ios-list-actions { display: flex; align-items: center; gap: 12px; }
-        
-        .ios-header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); margin-bottom: 20px; }
-        .ios-back-btn { background: none; border: none; color: #007AFF; font-size: 1.1rem; display: flex; align-items: center; gap: 4px; cursor: pointer; font-weight: 500; }
-
-        /* --- MOBILE UI --- */
-        @media (max-width: 768px) {
-            body { padding: 30px 20px 50px 20px; } 
-            h1 { font-size: 1.6rem; letter-spacing: -0.5px; }
-            .logo-btn { max-width: 80px !important; }
-            .no-mobile { display: none !important; }
-
-            .section-box, .item-card { padding: 20px; border-radius: 16px; margin-bottom: 16px; }
-            .grid-2, .grid-3, .grid-4 { display: flex; flex-direction: column; gap: 16px; }
-            
-            .medidas-container { display: flex; flex-direction: row; align-items: flex-end; gap: 12px; }
-            .medidas-input { flex: 1; max-width: none; }
-            
-            .ddi-wrapper { display: flex; flex-direction: row; gap: 12px; width: 100%; }
-            .ddi-select { flex: 0 0 100px !important; }
-
-            .header-section { flex-direction: column; align-items: flex-start; gap: 16px; }
-            .header-section .actions-group { width: 100%; display: flex; flex-wrap: wrap; gap: 10px; }
-            .header-section .actions-group .btn { flex: 1; justify-content: center; }
-            
-            .item-actions { flex-direction: column; gap: 10px; }
-            .item-actions .btn { width: 100%; justify-content: center; }
-
-            .totals-box { width: 100%; padding: 24px; border-radius: 16px; }
-            .actions-bottom { flex-direction: column; gap: 12px; padding-bottom: 30px; } 
-            .actions-bottom .btn { width: 100%; justify-content: center; padding: 16px; font-size: 1.1rem; }
-            
-            .modal-content { padding: 20px; border-radius: 24px; margin: 10px; }
-            .table-responsive { border-radius: 12px; margin-top: 10px; }
-
-            .backup-tools-actions { justify-content: center; width: 100%; }
-            .backup-tools-actions .btn { flex: 1 1 calc(50% - 10px); min-width: 130px; justify-content: center; }
-            .search-container { width: 100%; max-width: 100%; margin-top: 5px; }
-        }
-
-        /* --- MODO IMPRESSÃO --- */
-        .print-only { display: none; }
-        @media print {
-            @page { margin: 0; } 
-            body { background: #fff; padding: 0; margin: 1cm; font-size: 11px; }
-            .container { max-width: 100%; border: none; background: #fff; }
-            .no-print, button, .item-card, .modal-overlay, .actions-bottom, .section-box { display: none !important; }
-            .print-only { display: block; }
-            
-            .print-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--accent-color); padding-bottom: 12px; margin-bottom: 16px; }
-            .print-logo img { max-width: 110px; } 
-            .print-info { text-align: right; font-size: 10px; color: var(--text-muted); }
-            .print-info strong { color: var(--text-main); font-size: 12px; }
-            
-            h2 { font-size: 14px; margin-bottom: 8px; font-weight: bold;}
-            p { margin-bottom: 3px; }
-            div[style*="margin-bottom: 30px"] { margin-bottom: 12px !important; }
-            
-            .table-responsive { border: 1px solid var(--border-color) !important; border-radius: 12px !important; overflow: hidden !important; box-shadow: none !important; margin-top: 10px !important; background: #fff !important; }
-            table.resume-table { border: none !important; margin-top: 0 !important; }
-            table.resume-table th, table.resume-table td { padding: 8px 10px; font-size: 11px; } 
-            table.resume-table th { background: transparent !important; color: #000 !important; border-bottom: 1px solid var(--border-color) !important; }
-            table.resume-table tr:last-child td { border-bottom: none !important; }
-            
-            .totals-box { padding: 12px; margin-top: 12px; width: 260px; border: 1px solid var(--border-color); background: #fafafa; color: #000; box-shadow: none; border-radius: 12px !important;}
-            .totals-row { font-size: 11px; margin-bottom: 4px; color: #000; font-weight: 500;}
-            .totals-row.grand-total { font-size: 14px; margin-top: 8px; padding-top: 8px; border-top-color: #ddd;}
-            
-            .print-footer { margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--border-color); page-break-inside: avoid; }
-            .validade-text { font-size: 10px !important; margin-top: 4px !important; }
-            
-            .signature-area { display: flex; justify-content: space-around; align-items: flex-end; margin-top: 30px; gap: 20px; }
-            .signature-box { display: flex; flex-direction: column; align-items: center; width: 45%; max-width: 240px; }
-            .signature-box img { max-width: 130px; margin-bottom: 4px; display: block; }
-            .signature-line { border-top: 1px solid var(--text-main); margin-top: 4px; padding-top: 6px; font-size: 10px; text-align: center; width: 100%; line-height: 1.3; }
-            .quote-container { text-align: center; margin: 20px auto 0 auto; width: 85%; font-style: italic; font-size: 10px; color: var(--text-muted); }
-        }
-    </style>
 </head>
 <body>
 
-<div id="login-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 9999; display: flex; justify-content: center; align-items: center; padding: 20px;">
-    <div style="background: var(--card-bg); width: 100%; max-width: 380px; text-align: center; padding: 40px 30px; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.08);">
-        <img src="CREVO_Logo_2025.png" alt="CREVO" style="max-width: 140px; margin-bottom: 25px; border-radius: 12px;" onerror="this.style.display='none'">
-        <h2 style="margin-bottom: 30px; text-transform: none; font-size: 1.4rem;">Acesso ao Sistema</h2>
+<div id="login-overlay" class="modal-overlay-login">
+    <div class="login-box">
+        <img src="CREVO_Logo_2025.png" alt="CREVO" class="login-logo" onerror="this.style.display='none'">
+        <h2 class="login-title">Acesso ao Sistema</h2>
         
         <div id="login-fields" style="text-align: left;">
             <div style="margin-bottom: 16px;">
-                <label style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">Usuário ou E-mail</label>
+                <label class="login-label">Usuário ou E-mail</label>
                 <input type="text" id="login-user" placeholder="Ex: nome@crevo.co" onkeyup="if(event.key === 'Enter') fazerLogin()">
             </div>
             <div style="margin-bottom: 24px;">
-                <label style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">Senha</label>
+                <label class="login-label">Senha</label>
                 <input type="password" id="login-pass" placeholder="••••••••" onkeyup="if(event.key === 'Enter') fazerLogin()">
             </div>
-            <button class="btn" style="width: 100%; padding: 14px; font-size: 1.1rem; border-radius: 14px;" onclick="fazerLogin()">Entrar</button>
+            <button class="btn login-btn" onclick="fazerLogin()">Entrar</button>
         </div>
 
-        <button id="btn-faceid-login" class="btn btn-outline" style="width: 100%; padding: 14px; font-size: 1rem; border-radius: 14px; margin-top: 15px; display: none;" onclick="loginBiometria(false)"><ion-icon name="finger-print-outline"></ion-icon> Entrar com Biometria</button>
+        <button id="btn-faceid-login" class="btn btn-outline faceid-btn" onclick="loginBiometria(false)">
+            <ion-icon name="finger-print-outline"></ion-icon> Entrar com Biometria
+        </button>
 
-        <p id="login-error" style="color: var(--danger-color); margin-top: 20px; font-size: 0.95rem; display: none; font-weight: 600;">Usuário ou senha incorretos.</p>
+        <p id="login-error" class="login-error-msg">Usuário ou senha incorretos.</p>
     </div>
 </div>
 
 <div id="pwd-modal" class="modal-overlay" style="display: none;">
-    <div class="modal-content" style="max-width: 360px; text-align: center; padding: 40px 30px;">
-        <h2 style="font-weight: 800; margin-bottom: 12px; text-transform: none;">Acesso Restrito</h2>
-        <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 24px;">Autenticação necessária para editar regras de negócio e usuários.</p>
-        <input type="password" id="admin-pwd" placeholder="Senha Administrador" style="margin-bottom: 24px; text-align: center;" onkeyup="if(event.key === 'Enter') checkPwd()">
-        <div style="display: flex; gap: 12px; justify-content: center; flex-direction: column;">
+    <div class="modal-content admin-pwd-box">
+        <h2 class="admin-pwd-title">Acesso Restrito</h2>
+        <p class="admin-pwd-desc">Autenticação necessária para editar regras de negócio e usuários.</p>
+        <input type="password" id="admin-pwd" placeholder="Senha Administrador" class="admin-pwd-input" onkeyup="if(event.key === 'Enter') checkPwd()">
+        <div class="admin-pwd-actions">
             <div style="display: flex; gap: 12px;">
                 <button class="btn btn-outline" style="flex: 1;" onclick="fecharModalPwd()">Cancelar</button>
                 <button class="btn" style="flex: 1;" onclick="checkPwd()">Acessar</button>
             </div>
-            <button id="btn-faceid-admin" class="btn btn-outline" style="width: 100%; padding: 14px; font-size: 1rem; border-radius: 10px; display: none;" onclick="loginBiometria(true)"><ion-icon name="finger-print-outline"></ion-icon> Biometria</button>
+            <button id="btn-faceid-admin" class="btn btn-outline faceid-btn-admin" onclick="loginBiometria(true)">
+                <ion-icon name="finger-print-outline"></ion-icon> Biometria
+            </button>
         </div>
     </div>
 </div>
 
 <div id="prices-modal" class="modal-overlay" style="display: none;">
-    <div class="modal-content" style="max-height: 95vh;">
+    <div class="modal-content">
         <div class="modal-header">
-            <h2 style="text-transform: none; font-size: 1.6rem;">Configurações do Sistema</h2>
+            <h2 class="modal-title-icon"><ion-icon name="settings-outline"></ion-icon> Configurações</h2>
             <button onclick="fecharModalPrecos()" class="close-btn"><ion-icon name="close-outline"></ion-icon></button>
         </div>
-        <div style="overflow-y: auto; flex-grow: 1; padding-right: 5px;">
-            
-            <div style="background: #F2F2F7; padding: 20px; border-radius: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-                <div>
-                    <h3 style="text-transform: none; font-size: 1.1rem; margin-bottom: 4px;">Acesso Rápido (Biometria)</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Use Touch ID ou Face ID para logar.</p>
-                </div>
-                <button class="btn btn-dark" onclick="registrarBiometria()"><ion-icon name="finger-print-outline"></ion-icon> Habilitar Aparelho</button>
-            </div>
 
-            <div class="backup-tools">
-                <span><strong>Atenção:</strong> Ao salvar aqui, a mudança vai apenas para o dispositivo. Para atualizar a nuvem, faça o <strong>Backup JSON</strong> e suba no GitHub!</span>
-                <div class="backup-tools-actions">
-                    <button class="btn btn-dark" style="flex: 1;" onclick="exportarPrecos()"><ion-icon name="cloud-download-outline"></ion-icon> Baixar Backup</button>
-                    <input type="file" id="import-prices" style="display:none;" onchange="importarPrecos(event)" accept=".json">
-                    <button class="btn btn-outline" style="flex: 1; border-color: #1565C0; color: #1565C0; background: #fff;" onclick="$('import-prices').click()"><ion-icon name="cloud-upload-outline"></ion-icon> Importar</button>
-                    <button class="btn" style="background: var(--success-color);" onclick="salvarPrecos()"><ion-icon name="save-outline"></ion-icon> Salvar Localmente</button>
-                </div>
-            </div>
-            
-            <h3 style="font-size: 1.3rem; margin-bottom: 12px; text-transform: none;">Regras de precificação</h3>
-            <div class="grid-2" style="background: var(--bg-color); padding: 20px; border-radius: 16px;">
-                <div><label>Custo Moldura (p/ cm²)</label><input type="number" id="base-custo-moldura" step="0.001"></div>
-                <div><label>Markup Moldura</label><input type="number" id="base-markup-moldura" step="0.0001"></div>
-            </div>
-            
-            <h3 style="font-size: 1.15rem; margin: 24px 0 12px; text-transform: none; color: var(--text-muted);">Valores dos materiais por cm²</h3>
-            <div class="grid-3" id="config-materiais-lista" style="margin-bottom: 30px;"></div>
-
-            <hr style="margin: 30px 0; border: 0; border-top: 1px solid var(--border-color);">
-            
-            <h3 id="modal-cupom-title" style="font-size: 1.3rem; margin-bottom: 10px; text-transform: none;">Cupons de Desconto</h3>
-            <input type="hidden" id="modal-cupom-old-cod">
-            
-            <div class="grid-3" style="background: var(--bg-color); padding: 20px; border-radius: 16px; margin-bottom: 20px;">
-                <div><label>Código (Ex: CREVO10)</label><input type="text" id="novo-cupom-cod" style="text-transform: uppercase;"></div>
-                <div><label>Tipo de desconto</label><select id="novo-cupom-tipo"><option value="percentual">Percentual (%)</option><option value="fixo">Valor Fixo (R$)</option></select></div>
-                <div>
-                    <label>Valor</label>
-                    <div style="display:flex; gap: 8px; align-items:flex-end;">
-                        <input type="number" id="novo-cupom-val" step="0.01">
-                        <button class="btn btn-outline btn-small" style="padding: 14px; display:none;" id="btn-cancel-edit-cupom" onclick="cancelarEdicaoCupom()"><ion-icon name="close-outline" style="margin:0;"></ion-icon></button>
-                        <button class="btn btn-small" style="padding: 14px 20px;" onclick="adicionarCupomAdmin()"><ion-icon name="save-outline" style="margin:0;"></ion-icon></button>
+        <div id="config-list-view" class="list-view-container">
+            <div class="ios-list-scrollable">
+                <div class="ios-list">
+                    <div class="ios-list-item" onclick="abrirDetailConfig('biometria', 'Acesso Rápido')">
+                        <div class="ios-list-title"><ion-icon name="finger-print-outline" style="color: #007AFF; font-size: 24px;"></ion-icon> Biometria</div>
+                        <ion-icon name="chevron-forward-outline" style="color:var(--text-muted); font-size: 20px;"></ion-icon>
+                    </div>
+                    <div class="ios-list-item" onclick="abrirDetailConfig('backup', 'Backup e Sincronização')">
+                        <div class="ios-list-title"><ion-icon name="cloud-outline" style="color: #34C759; font-size: 24px;"></ion-icon> Backup & Sincronização</div>
+                        <ion-icon name="chevron-forward-outline" style="color:var(--text-muted); font-size: 20px;"></ion-icon>
+                    </div>
+                    <div class="ios-list-item" onclick="abrirDetailConfig('regras', 'Regras de Precificação')">
+                        <div class="ios-list-title"><ion-icon name="calculator-outline" style="color: #FF9500; font-size: 24px;"></ion-icon> Regras de Precificação</div>
+                        <ion-icon name="chevron-forward-outline" style="color:var(--text-muted); font-size: 20px;"></ion-icon>
+                    </div>
+                    <div class="ios-list-item" onclick="abrirDetailConfig('cupons', 'Cupons de Desconto')">
+                        <div class="ios-list-title"><ion-icon name="ticket-outline" style="color: #FF2D55; font-size: 24px;"></ion-icon> Cupons de Desconto</div>
+                        <ion-icon name="chevron-forward-outline" style="color:var(--text-muted); font-size: 20px;"></ion-icon>
+                    </div>
+                    <div class="ios-list-item" onclick="abrirDetailConfig('usuarios', 'Gestão de Usuários')">
+                        <div class="ios-list-title"><ion-icon name="people-circle-outline" style="color: #5856D6; font-size: 24px;"></ion-icon> Gestão de Usuários</div>
+                        <ion-icon name="chevron-forward-outline" style="color:var(--text-muted); font-size: 20px;"></ion-icon>
                     </div>
                 </div>
             </div>
-            <div class="table-responsive">
-                <table class="resume-table">
-                    <thead><tr><th>Código</th><th>Regra</th><th class="actions-cell">Ações</th></tr></thead>
-                    <tbody id="lista-cupons-body"></tbody>
-                </table>
-            </div>
+        </div>
 
-            <hr style="margin: 30px 0; border: 0; border-top: 1px solid var(--border-color);">
-            <h3 id="modal-usuario-title" style="font-size: 1.3rem; margin-bottom: 10px; text-transform: none;">Gestão de Usuários</h3>
-            <input type="hidden" id="modal-usuario-old-user">
-            
-            <div class="grid-3" style="background: var(--bg-color); padding: 20px; border-radius: 16px; margin-bottom: 20px;">
-                <div><label>Usuário / E-mail</label><input type="text" id="novo-usuario-user" placeholder="Ex: nome@crevo.co"></div>
-                <div><label>Senha</label><input type="text" id="novo-usuario-pass" placeholder="Ex: SenhaForte123"></div>
-                <div>
-                    <label>&nbsp;</label>
-                    <div style="display:flex; gap: 8px; align-items:flex-end;">
-                        <button class="btn btn-outline btn-small" style="padding: 14px; display:none;" id="btn-cancel-edit-usuario" onclick="cancelarEdicaoUsuario()"><ion-icon name="close-outline" style="margin:0;"></ion-icon></button>
-                        <button class="btn btn-small" style="padding: 14px 20px;" onclick="salvarUsuarioAdmin()"><ion-icon name="save-outline" style="margin:0;"></ion-icon></button>
+        <div id="config-detail-view" class="detail-view-container" style="display: none;">
+            <div class="ios-header">
+                <button class="ios-back-btn" onclick="fecharDetailConfig()"><ion-icon name="chevron-back-outline"></ion-icon> Ajustes</button>
+                <h3 id="detail-config-title" class="detail-title"></h3>
+            </div>
+            <div class="detail-content-scroll" style="padding-bottom: 20px;">
+                
+                <div id="cfg-biometria" style="display: none;">
+                    <div class="biometria-setup-box">
+                        <div>
+                            <h3 class="biometria-setup-title">Acesso Rápido (Biometria)</h3>
+                            <p class="biometria-setup-desc">Use Touch ID ou Face ID para logar sem senha.</p>
+                        </div>
+                        <button class="btn btn-dark" onclick="registrarBiometria()"><ion-icon name="finger-print-outline"></ion-icon> Habilitar Aparelho</button>
                     </div>
                 </div>
-            </div>
-            <div class="table-responsive" style="margin-bottom: 30px;">
-                <table class="resume-table">
-                    <thead><tr><th>Usuário</th><th>Senha</th><th class="actions-cell">Ações</th></tr></thead>
-                    <tbody id="lista-usuarios-body"></tbody>
-                </table>
-            </div>
 
+                <div id="cfg-backup" style="display: none;">
+                    <div class="backup-tools" style="margin-bottom: 0;">
+                        <span>Ao salvar aqui, a mudança vai para o dispositivo. Para atualizar a nuvem, faça o <strong>Backup JSON</strong> e suba no GitHub!</span>
+                        <div class="backup-tools-actions" style="margin-top: 16px;">
+                            <button class="btn btn-dark" style="flex: 1;" onclick="exportarPrecos()"><ion-icon name="cloud-download-outline"></ion-icon> Baixar Backup</button>
+                            <input type="file" id="import-prices" style="display:none;" onchange="importarPrecos(event)" accept=".json">
+                            <button class="btn btn-outline btn-import" style="flex: 1;" onclick="document.getElementById('import-prices').click()"><ion-icon name="cloud-upload-outline"></ion-icon> Importar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="cfg-regras" style="display: none;">
+                    <div class="grid-2 config-box">
+                        <div><label>Custo Moldura (p/ cm²)</label><input type="number" id="base-custo-moldura" step="0.001"></div>
+                        <div><label>Markup Moldura</label><input type="number" id="base-markup-moldura" step="0.0001"></div>
+                    </div>
+                    <h3 class="config-subsection-title">Valores dos materiais por cm²</h3>
+                    <div class="grid-3" id="config-materiais-lista" style="margin-bottom: 24px;"></div>
+                    <button class="btn" style="background: var(--success-color); width: 100%;" onclick="salvarPrecos()"><ion-icon name="save-outline"></ion-icon> Salvar Regras Localmente</button>
+                </div>
+
+                <div id="cfg-cupons" style="display: none;">
+                    <input type="hidden" id="modal-cupom-old-cod">
+                    <div class="grid-3 config-box">
+                        <div><label>Código (Ex: CREVO10)</label><input type="text" id="novo-cupom-cod" style="text-transform: uppercase;"></div>
+                        <div><label>Tipo</label><select id="novo-cupom-tipo"><option value="percentual">Percentual (%)</option><option value="fixo">Valor Fixo (R$)</option></select></div>
+                        <div>
+                            <label>Valor</label>
+                            <div class="input-with-button">
+                                <input type="number" id="novo-cupom-val" step="0.01">
+                                <button class="btn btn-outline btn-small action-inline-btn" id="btn-cancel-edit-cupom" onclick="cancelarEdicaoCupom()"><ion-icon name="close-outline" style="margin:0;"></ion-icon></button>
+                                <button class="btn btn-small btn-save-inline" onclick="adicionarCupomAdmin()"><ion-icon name="save-outline" style="margin:0;"></ion-icon></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive"><table class="resume-table"><thead><tr><th>Código</th><th>Regra</th><th class="actions-cell">Ações</th></tr></thead><tbody id="lista-cupons-body"></tbody></table></div>
+                </div>
+
+                <div id="cfg-usuarios" style="display: none;">
+                    <input type="hidden" id="modal-usuario-old-user">
+                    <div class="grid-3 config-box">
+                        <div><label>Usuário / E-mail</label><input type="text" id="novo-usuario-user"></div>
+                        <div><label>Senha</label><input type="text" id="novo-usuario-pass"></div>
+                        <div>
+                            <label>&nbsp;</label>
+                            <div class="input-with-button">
+                                <button class="btn btn-outline btn-small action-inline-btn" id="btn-cancel-edit-usuario" onclick="cancelarEdicaoUsuario()"><ion-icon name="close-outline" style="margin:0;"></ion-icon></button>
+                                <button class="btn btn-small btn-save-inline" onclick="salvarUsuarioAdmin()"><ion-icon name="save-outline" style="margin:0;"></ion-icon></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive"><table class="resume-table"><thead><tr><th>Usuário</th><th>Senha</th><th class="actions-cell">Ações</th></tr></thead><tbody id="lista-usuarios-body"></tbody></table></div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
@@ -394,16 +176,16 @@
             <button onclick="fecharModalCategorias()" class="close-btn"><ion-icon name="close-outline"></ion-icon></button>
         </div>
         <div class="modal-body" style="overflow-y: auto; flex-grow: 1;">
-            <div style="display:flex; gap:12px; margin-bottom: 24px; align-items:flex-end; background: var(--bg-color); padding: 20px; border-radius: 16px; flex-wrap:wrap;">
+            <div class="categoria-edit-box">
                 <div style="flex-grow: 1;">
                     <label id="lbl-nova-cat">Nova categoria</label>
                     <input type="text" id="nova-categoria-nome" placeholder="Ex: Galeria">
                 </div>
-                <button class="btn btn-outline" id="btn-cancel-edit-cat" style="display:none; padding: 14px;" onclick="cancelarEdicaoCategoria()"><ion-icon name="close-outline" style="margin:0;"></ion-icon></button>
-                <button class="btn" onclick="salvarCategoriaAdmin()" style="padding: 14px 20px;"><ion-icon name="save-outline" style="margin:0;"></ion-icon></button>
-                <button class="btn btn-dark" onclick="salvarEUsarCategoriaAdmin()" style="padding: 14px 20px;"><ion-icon name="add-outline"></ion-icon> Usar</button>
+                <button class="btn btn-outline action-inline-btn" id="btn-cancel-edit-cat" onclick="cancelarEdicaoCategoria()"><ion-icon name="close-outline" style="margin:0;"></ion-icon></button>
+                <button class="btn btn-save-inline" onclick="salvarCategoriaAdmin()"><ion-icon name="save-outline" style="margin:0;"></ion-icon></button>
+                <button class="btn btn-dark btn-save-inline" onclick="salvarEUsarCategoriaAdmin()"><ion-icon name="add-outline"></ion-icon> Usar</button>
             </div>
-            <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
+            <div class="table-responsive cat-table-container">
                 <table class="resume-table">
                     <thead><tr><th>Nome da categoria</th><th class="actions-cell">Ações</th></tr></thead>
                     <tbody id="lista-categorias-body"></tbody>
@@ -416,22 +198,22 @@
 <div id="client-modal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
         <div class="modal-header">
-            <h2 style="display:flex; align-items:center; gap:15px; text-transform: none;"><ion-icon name="people-outline" style="font-size: 28px;"></ion-icon> CRM de Clientes</h2>
+            <h2 class="modal-title-icon"><ion-icon name="people-outline"></ion-icon> CRM de Clientes</h2>
             <button onclick="fecharModalClientes()" class="close-btn"><ion-icon name="close-outline"></ion-icon></button>
         </div>
         
-        <div id="crm-list-view" style="flex-grow: 1; display: flex; flex-direction: column;">
-            <div class="header-collapsible" onclick="toggleCollapsible('form-add-cliente')" style="margin-bottom: 12px;">
-                <h3 style="font-size: 1.15rem; margin: 0; text-transform: none; display: flex; align-items: center; gap: 8px;"><ion-icon name="person-add-outline"></ion-icon> Adicionar novo cliente</h3>
+        <div id="crm-list-view" class="list-view-container">
+            <div class="header-collapsible" onclick="toggleCollapsible('form-add-cliente')">
+                <h3 class="collapsible-title"><ion-icon name="person-add-outline"></ion-icon> Adicionar novo cliente</h3>
                 <ion-icon name="chevron-down-outline" id="icon-form-add-cliente"></ion-icon>
             </div>
             
-            <div id="form-add-cliente" style="display: none; background: var(--bg-color); padding: 25px; border-radius: 20px; margin-bottom: 24px; flex-shrink: 0;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
-                    <h3 id="modal-client-title" style="font-size: 1.25rem; margin: 0; text-transform: none;">Preencha os dados</h3>
-                    <div style="display: flex; align-items: center; gap: 10px; background: #fff; padding: 6px 16px; border-radius: 12px; border: 1px solid var(--border-color);">
+            <div id="form-add-cliente" class="form-collapsible-content" style="display: none;">
+                <div class="form-header-flex">
+                    <h3 id="modal-client-title" class="form-title">Preencha os dados</h3>
+                    <div class="checkbox-badge">
                         <input type="checkbox" id="modal-cliente-fixo">
-                        <label for="modal-cliente-fixo" style="margin:0; cursor:pointer; font-weight: 600;">Cliente Fixo ★</label>
+                        <label for="modal-cliente-fixo">Cliente Fixo ★</label>
                     </div>
                 </div>
                 <input type="hidden" id="modal-cliente-id">
@@ -442,7 +224,7 @@
                     <div>
                         <label>Telefone</label>
                         <div class="ddi-wrapper">
-                            <select id="modal-cliente-ddi" class="ddi-select" onchange="aplicarMascaraTelefone({target: $('modal-cliente-tel')})">
+                            <select id="modal-cliente-ddi" class="ddi-select" onchange="aplicarMascaraTelefone({target: document.getElementById('modal-cliente-tel')})">
                                 <option value="+55">+55 BR</option><option value="+1">+1 US/CA</option><option value="+351">+351 PT</option><option value="+44">+44 GB</option><option value="+34">+34 ES</option><option value="+39">+39 IT</option><option value="+33">+33 FR</option><option value="+49">+49 DE</option><option value="+54">+54 AR</option><option value="+598">+598 UY</option><option value="+56">+56 CL</option><option value="+52">+52 MX</option>
                             </select>
                             <input type="text" id="modal-cliente-tel" class="ddi-input" placeholder="(00) 00000-0000" maxlength="20" oninput="aplicarMascaraTelefone(event)" onpaste="handlePasteTelefone(event)">
@@ -452,8 +234,8 @@
                 <div class="grid-3">
                     <div><label>CPF / CNPJ</label><input type="text" id="modal-cliente-doc" placeholder="000.000.000-00" maxlength="18" oninput="aplicarMascaraDocumento(event)"></div>
                     <div>
-                        <label style="display:flex; align-items:center; gap: 8px; position: relative;">CEP 
-                            <button type="button" class="btn-icon" style="background:#fff; border:1px solid var(--border-color); padding: 4px;" onclick="toggleFreteLinks(event, 'frete-popup-modal')"><ion-icon name="cube-outline" style="font-size:16px;"></ion-icon></button>
+                        <label class="label-with-icon">CEP 
+                            <button type="button" class="btn-icon mini-icon-btn" onclick="toggleFreteLinks(event, 'frete-popup-modal')"><ion-icon name="cube-outline"></ion-icon></button>
                             <div id="frete-popup-modal" class="frete-dropdown">
                                 <a href="https://melhorenvio.com.br/calculadora" target="_blank">Melhor Envio</a>
                                 <a href="https://www2.correios.com.br/sistemas/precosPrazos/" target="_blank">Correios</a>
@@ -464,7 +246,7 @@
                     </div>
                     <div><label>Cidade / UF</label><input type="text" id="modal-cliente-cidade" placeholder="Ex: São Paulo / SP"></div>
                 </div>
-                <div class="grid-2" style="grid-template-columns: 2fr 1fr;">
+                <div class="grid-2 grid-2-1">
                     <div><label>Endereço</label><input type="text" id="modal-cliente-endereco" placeholder="Ex: Rua das Flores, 123"></div>
                     <div>
                         <label>Categoria</label>
@@ -478,21 +260,21 @@
                     <div>
                         <label>Instagram</label>
                         <div style="display: flex;">
-                            <span style="padding: 14px 16px; background: #E5E5EA; border: 1px solid var(--border-color); border-right: none; border-radius: 10px 0 0 10px; color: #8E8E93; font-weight: 800; display: flex; align-items: center;">@</span>
-                            <input type="text" id="modal-cliente-ig" style="flex: 1; min-width: 0; border-radius: 0 10px 10px 0;" placeholder="usuario" onblur="extrairInstagram(this)">
+                            <span class="ig-prefix">@</span>
+                            <input type="text" id="modal-cliente-ig" class="ig-input" placeholder="usuario" onblur="extrairInstagram(this)">
                         </div>
                     </div>
                     <div><label>Observação <small>(Interno)</small></label><input type="text" id="modal-cliente-obs" placeholder="Detalhes internos..."></div>
                 </div>
 
-                <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end; margin-top: 24px;">
+                <div class="form-actions-right">
                     <button class="btn btn-outline" id="btn-cancel-edit-client" style="display:none;" onclick="cancelarEdicaoClienteModal()">Cancelar</button>
                     <button class="btn" onclick="salvarClienteModal()"><ion-icon name="save-outline"></ion-icon> Salvar Localmente</button>
                 </div>
             </div>
 
-            <div class="header-collapsible" onclick="toggleCollapsible('form-backup-cliente')" style="margin-bottom: 16px;">
-                <h3 style="font-size: 1.15rem; margin: 0; text-transform: none; display: flex; align-items: center; gap: 8px;"><ion-icon name="cloud-outline"></ion-icon> Backup & Ferramentas</h3>
+            <div class="header-collapsible backup-collapsible" onclick="toggleCollapsible('form-backup-cliente')" style="margin-bottom: 16px;">
+                <h3 class="collapsible-title"><ion-icon name="cloud-outline"></ion-icon> Backup & Ferramentas</h3>
                 <ion-icon name="chevron-down-outline" id="icon-form-backup-cliente"></ion-icon>
             </div>
 
@@ -500,41 +282,41 @@
                 <span>Atualize o GitHub após salvar mudanças locais.</span>
                 <div class="backup-tools-actions">
                     <button class="btn btn-dark" style="flex: 1;" onclick="exportarClientes('json')"><ion-icon name="cloud-download-outline"></ion-icon> Backup JSON</button>
-                    <button class="btn btn-outline" style="flex: 1; border-color: #1565C0; color: #1565C0; background: transparent;" onclick="exportarClientes('csv')">CSV</button>
+                    <button class="btn btn-outline btn-csv" onclick="exportarClientes('csv')">CSV</button>
                     <input type="file" id="import-client" style="display:none;" onchange="importarClientes(event)" accept=".json,.csv">
-                    <button class="btn btn-outline" style="flex: 1; border-color: #1565C0; color: #1565C0; background: #fff;" onclick="$('import-client').click()"><ion-icon name="cloud-upload-outline"></ion-icon> Importar</button>
+                    <button class="btn btn-outline btn-import" onclick="document.getElementById('import-client').click()"><ion-icon name="cloud-upload-outline"></ion-icon> Importar</button>
                 </div>
             </div>
 
-            <div style="display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;">
+            <div class="search-wrap">
                 <div class="search-container">
                     <input type="text" id="busca-cliente" placeholder="Buscar cliente..." oninput="renderListClientes(this.value)" required>
-                    <button class="search-clear" type="button" onclick="$('busca-cliente').value=''; renderListClientes();"><ion-icon name="close-outline" style="font-size:18px;"></ion-icon></button>
+                    <button class="search-clear" type="button" onclick="document.getElementById('busca-cliente').value=''; renderListClientes();"><ion-icon name="close-outline"></ion-icon></button>
                 </div>
             </div>
 
-            <div style="position: relative; display: flex; align-items: center; margin-bottom: 16px;">
-                <button class="scroll-arrow no-mobile" onclick="$('category-filter-container').scrollBy({left: -200, behavior: 'smooth'})" style="margin-right: 8px;"><ion-icon name="chevron-back-outline"></ion-icon></button>
-                <div id="category-filter-container" style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; white-space: nowrap; scrollbar-width: none; flex-grow: 1; min-height: 44px; align-items: center;"></div>
-                <button class="scroll-arrow no-mobile" onclick="$('category-filter-container').scrollBy({left: 200, behavior: 'smooth'})" style="margin-left: 8px;"><ion-icon name="chevron-forward-outline"></ion-icon></button>
+            <div class="filter-carousel">
+                <button class="scroll-arrow no-mobile" onclick="document.getElementById('category-filter-container').scrollBy({left: -200, behavior: 'smooth'})"><ion-icon name="chevron-back-outline"></ion-icon></button>
+                <div id="category-filter-container" class="filter-container"></div>
+                <button class="scroll-arrow no-mobile" onclick="document.getElementById('category-filter-container').scrollBy({left: 200, behavior: 'smooth'})"><ion-icon name="chevron-forward-outline"></ion-icon></button>
             </div>
             
-            <div style="flex-grow: 1; overflow-y: auto; padding-bottom: 20px;">
+            <div class="ios-list-scrollable">
                 <div id="client-list-container" class="ios-list"></div>
             </div>
             
-            <div class="modal-footer-fixed" style="border-radius: 0 0 20px 20px; flex-shrink: 0;">
-                <button class="btn btn-outline btn-small" style="color: var(--danger-color); border-color: var(--danger-color);" onclick="limparTodosClientesAdmin()">Apagar todos</button>
-                <div style="font-weight: 600;">Total: <strong id="total-clientes-footer" style="color: var(--text-main); font-size: 1.2rem;">0</strong></div>
+            <div class="modal-footer-fixed">
+                <button class="btn btn-outline btn-small btn-delete-all" onclick="limparTodosClientesAdmin()">Apagar todos</button>
+                <div style="font-weight: 600;">Total: <strong id="total-clientes-footer" class="total-counter">0</strong></div>
             </div>
         </div>
 
-        <div id="crm-detail-view" style="display: none; flex-grow: 1; flex-direction: column;">
+        <div id="crm-detail-view" class="detail-view-container" style="display: none;">
             <div class="ios-header">
                 <button class="ios-back-btn" onclick="fecharDetalhesCliente()"><ion-icon name="chevron-back-outline"></ion-icon> Clientes</button>
-                <h3 id="detail-client-name" style="margin: 0 auto; text-transform: none; font-size: 1.2rem; transform: translateX(-20px); font-weight: 700;"></h3>
+                <h3 id="detail-client-name" class="detail-title"></h3>
             </div>
-            <div id="crm-detail-content" style="flex-grow: 1; overflow-y: auto;"></div>
+            <div id="crm-detail-content" class="detail-content-scroll"></div>
         </div>
     </div>
 </div>
@@ -542,32 +324,32 @@
 <div id="quotes-modal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
         <div class="modal-header">
-            <h2 style="display:flex; align-items:center; gap:15px; text-transform: none;"><ion-icon name="chatbubble-ellipses-outline" style="font-size: 28px;"></ion-icon> Mensagens de Rodapé</h2>
+            <h2 class="modal-title-icon"><ion-icon name="chatbubble-ellipses-outline"></ion-icon> Mensagens de Rodapé</h2>
             <button onclick="fecharModalFrases()" class="close-btn"><ion-icon name="close-outline"></ion-icon></button>
         </div>
         
-        <div id="frases-list-view" style="flex-grow: 1; display: flex; flex-direction: column;">
+        <div id="frases-list-view" class="list-view-container">
             
-            <div class="header-collapsible" onclick="toggleCollapsible('form-add-frase')" style="margin-bottom: 12px;">
-                <h3 style="font-size: 1.15rem; margin: 0; text-transform: none; display: flex; align-items: center; gap: 8px;"><ion-icon name="add-circle-outline"></ion-icon> Adicionar nova frase</h3>
+            <div class="header-collapsible" onclick="toggleCollapsible('form-add-frase')">
+                <h3 class="collapsible-title"><ion-icon name="add-circle-outline"></ion-icon> Adicionar nova frase</h3>
                 <ion-icon name="chevron-down-outline" id="icon-form-add-frase"></ion-icon>
             </div>
 
-            <div id="form-add-frase" style="display: none; background: var(--bg-color); padding: 25px; border-radius: 20px; margin-bottom: 24px; flex-shrink: 0;">
-                <h3 id="modal-frase-title" style="font-size: 1.25rem; margin-bottom: 16px; text-transform: none;">Nova Frase</h3>
+            <div id="form-add-frase" class="form-collapsible-content" style="display: none;">
+                <h3 id="modal-frase-title" class="form-title">Nova Frase</h3>
                 <input type="hidden" id="modal-frase-id">
                 <div class="grid-2">
                     <div style="grid-column: span 2;"><label>Texto (sem aspas)</label><input type="text" id="nova-frase-texto"></div>
                     <div><label>Autor</label><input type="text" id="nova-frase-autor"></div>
-                    <div style="display: flex; gap: 12px; align-items: flex-end; justify-content: flex-end;">
+                    <div class="form-actions-right">
                         <button class="btn btn-outline" id="btn-cancel-edit-frase" style="display:none;" onclick="cancelarEdicaoFrase()">Cancelar</button>
                         <button class="btn" onclick="salvarFraseModal()"><ion-icon name="save-outline"></ion-icon> Salvar Local</button>
                     </div>
                 </div>
             </div>
 
-            <div class="header-collapsible" onclick="toggleCollapsible('form-backup-frase')" style="margin-bottom: 16px;">
-                <h3 style="font-size: 1.15rem; margin: 0; text-transform: none; display: flex; align-items: center; gap: 8px;"><ion-icon name="cloud-outline"></ion-icon> Backup & Ferramentas</h3>
+            <div class="header-collapsible backup-collapsible" onclick="toggleCollapsible('form-backup-frase')" style="margin-bottom: 16px;">
+                <h3 class="collapsible-title"><ion-icon name="cloud-outline"></ion-icon> Backup & Ferramentas</h3>
                 <ion-icon name="chevron-down-outline" id="icon-form-backup-frase"></ion-icon>
             </div>
 
@@ -576,22 +358,22 @@
                 <div class="backup-tools-actions">
                     <button class="btn btn-dark" style="flex: 1;" onclick="exportarFrases()"><ion-icon name="cloud-download-outline"></ion-icon> Backup JSON</button>
                     <input type="file" id="import-quotes" style="display:none;" onchange="importarFrases(event)" accept=".json">
-                    <button class="btn btn-outline" style="flex: 1; border-color: #1565C0; color: #1565C0; background: #fff;" onclick="$('import-quotes').click()"><ion-icon name="cloud-upload-outline"></ion-icon> Importar</button>
+                    <button class="btn btn-outline btn-import" onclick="document.getElementById('import-quotes').click()"><ion-icon name="cloud-upload-outline"></ion-icon> Importar</button>
                 </div>
             </div>
 
-            <div style="flex-grow: 1; overflow-y: auto; padding-bottom: 20px;">
+            <div class="ios-list-scrollable">
                 <div id="quotes-list-container" class="ios-list"></div>
             </div>
             
         </div>
 
-        <div id="frases-detail-view" style="display: none; flex-grow: 1; flex-direction: column;">
+        <div id="frases-detail-view" class="detail-view-container" style="display: none;">
             <div class="ios-header">
                 <button class="ios-back-btn" onclick="fecharDetalhesFrase()"><ion-icon name="chevron-back-outline"></ion-icon> Frases</button>
-                <h3 id="detail-frase-title" style="margin: 0 auto; text-transform: none; font-size: 1.2rem; transform: translateX(-20px); font-weight: 700;"></h3>
+                <h3 id="detail-frase-title" class="detail-title"></h3>
             </div>
-            <div id="frases-detail-content" style="flex-grow: 1; overflow-y: auto;"></div>
+            <div id="frases-detail-content" class="detail-content-scroll"></div>
         </div>
 
     </div>
@@ -599,16 +381,16 @@
 
 <div class="container">
 
-    <div class="no-print" style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+    <div class="no-print main-header">
         <div>
-            <h1 style="font-family: 'TAN-Buster', sans-serif; text-transform: uppercase;">CALCULADORA FINE ART</h1>
-            <p style="color: var(--text-muted); font-size: 1.1rem; font-weight: 500;">Cotação de impressão - Fine art & Canvas</p>
+            <h1 class="main-title">CALCULADORA FINE ART</h1>
+            <p class="main-subtitle">Cotação de impressão - Fine art & Canvas</p>
         </div>
-        <img src="CREVO_Logo_2025.png" alt="CREVO Studio" class="logo-btn" style="max-width: 100px;" onerror="this.style.display='none'" onclick="abrirModalPwd()" title="Área Restrita">
+        <img src="CREVO_Logo_2025.png" alt="CREVO Studio" class="logo-btn main-logo" onerror="this.style.display='none'" onclick="abrirModalPwd()" title="Área Restrita">
     </div>
 
     <div class="section-box no-print">
-        <div class="grid-2" style="margin-bottom: 0;">
+        <div class="grid-2 no-margin-bottom">
             <div><label>Nº do orçamento</label><input type="text" id="orcamento-num-input" readonly></div>
             <div>
                 <label>Data/Hora</label>
@@ -622,9 +404,9 @@
         <div class="print-info"><strong>CREVO STUDIO LTDA</strong><br>CNPJ: 50.958.873/0001-80<br>São Paulo — BRASIL<br>+55 (11) 983 938 757<br>hello@crevo.co</div>
     </div>
 
-    <div class="print-only" style="margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end;">
+    <div class="print-only print-cliente-info">
         <div>
-            <h2 style="font-family: 'TAN-Buster', sans-serif; text-transform: uppercase;">IMPRESSÃO FINE ART</h2>
+            <h2 class="print-title">IMPRESSÃO FINE ART</h2>
             <p><strong>Cliente:</strong> <span id="print-cliente-nome"></span></p>
             <p><strong>E-mail:</strong> <span id="print-cliente-email"></span></p>
             <p><strong>Telefone:</strong> <span id="print-cliente-tel"></span></p>
@@ -633,17 +415,17 @@
             <p id="p-print-endereco" style="display:none;"><strong>Endereço:</strong> <span id="print-cliente-endereco"></span></p>
             <p id="p-print-cidade" style="display:none;"><strong>Cidade:</strong> <span id="print-cliente-cidade"></span></p>
         </div>
-        <div style="text-align: right; color: var(--text-muted);">
-            <p><strong style="color: var(--text-main);">Nº:</strong> <span id="print-orcamento-num"></span></p>
-            <p><strong style="color: var(--text-main);">Data:</strong> <span id="print-orcamento-data"></span></p>
+        <div class="print-meta-info">
+            <p><strong class="dark-label">Nº:</strong> <span id="print-orcamento-num"></span></p>
+            <p><strong class="dark-label">Data:</strong> <span id="print-orcamento-data"></span></p>
         </div>
     </div>
 
     <div class="section-box no-print">
         <div class="header-section">
-            <h2 style="text-transform: none;">Dados do cliente</h2>
+            <h2 class="normal-case">Dados do cliente</h2>
             <div class="actions-group">
-                <button class="btn btn-outline btn-small" style="color: var(--danger-color); border-color: var(--border-color);" onclick="limparDadosCliente()"><ion-icon name="close-outline"></ion-icon> Limpar</button>
+                <button class="btn btn-outline btn-small btn-clear-cliente" onclick="limparDadosCliente()"><ion-icon name="close-outline"></ion-icon> Limpar</button>
                 <button class="btn btn-outline btn-small" onclick="salvarClienteAtual()"><ion-icon name="save-outline"></ion-icon> Atualizar</button>
                 <button class="btn btn-dark btn-small" onclick="abrirModalClientes()"><ion-icon name="people-outline"></ion-icon> CRM</button>
             </div>
@@ -657,7 +439,7 @@
             <div>
                 <label>Telefone</label>
                 <div class="ddi-wrapper">
-                    <select id="cliente-ddi" class="ddi-select" onchange="syncClientData(); aplicarMascaraTelefone({target: $('cliente-tel')})">
+                    <select id="cliente-ddi" class="ddi-select" onchange="syncClientData(); aplicarMascaraTelefone({target: document.getElementById('cliente-tel')})">
                         <option value="+55">+55 BR</option><option value="+1">+1 US/CA</option><option value="+351">+351 PT</option><option value="+44">+44 GB</option><option value="+34">+34 ES</option><option value="+39">+39 IT</option><option value="+33">+33 FR</option><option value="+49">+49 DE</option><option value="+54">+54 AR</option><option value="+598">+598 UY</option><option value="+56">+56 CL</option><option value="+52">+52 MX</option>
                     </select>
                     <input type="text" id="cliente-tel" class="ddi-input" placeholder="(00) 00000-0000" maxlength="20" oninput="aplicarMascaraTelefone(event)" onpaste="handlePasteTelefone(event)">
@@ -665,8 +447,8 @@
             </div>
             <div><label>CPF / CNPJ</label><input type="text" id="cliente-doc" placeholder="000.000.000-00" maxlength="18" oninput="aplicarMascaraDocumento(event)"></div>
             <div>
-                <label style="display:flex; align-items:center; gap: 8px; position: relative;">CEP 
-                    <button type="button" class="btn-icon" style="background:var(--bg-color); border-radius:8px; padding: 4px;" onclick="toggleFreteLinks(event, 'frete-popup-main')"><ion-icon name="cube-outline" style="font-size:16px;"></ion-icon></button>
+                <label class="label-with-icon">CEP 
+                    <button type="button" class="btn-icon header-icon-btn" onclick="toggleFreteLinks(event, 'frete-popup-main')"><ion-icon name="cube-outline"></ion-icon></button>
                     <div id="frete-popup-main" class="frete-dropdown">
                         <a href="https://melhorenvio.com.br/calculadora" target="_blank">Melhor Envio</a>
                         <a href="https://www2.correios.com.br/sistemas/precosPrazos/" target="_blank">Correios</a>
@@ -676,15 +458,15 @@
                 <input type="text" id="cliente-cep" placeholder="00000-000" maxlength="9" oninput="aplicarMascaraCEP(event, 'cliente')">
             </div>
         </div>
-        <div class="grid-2" style="margin-top: -10px; grid-template-columns: 2fr 1fr;">
+        <div class="grid-2 grid-2-1 top-margin-negative">
             <div><label>Endereço (Rua, Número, Bairro)</label><input type="text" id="cliente-endereco" placeholder="Ex: Rua das Flores, 123" oninput="syncClientData()"></div>
             <div><label>Cidade / UF</label><input type="text" id="cliente-cidade" placeholder="Ex: São Paulo / SP" oninput="syncClientData()"></div>
         </div>
     </div>
 
     <div class="no-print">
-        <div class="header-section" style="margin-top: 32px;">
-            <h2 style="text-transform: none; font-size: 1.6rem;">Itens do pedido</h2>
+        <div class="header-section mt-32">
+            <h2 class="section-title-large">Itens do pedido</h2>
             <div class="actions-group"><button class="btn" onclick="adicionarItem()"><ion-icon name="add-outline"></ion-icon> Adicionar item</button></div>
         </div>
         <div id="items-container"></div>
@@ -694,53 +476,53 @@
     <div class="table-responsive">
         <table class="resume-table">
             <thead>
-                <tr><th>Item</th><th>Descrição</th><th style="text-align: center;">Qtd</th><th class="money">Valor Unit.</th><th class="money">Subtotal</th></tr>
+                <tr><th>Item</th><th>Descrição</th><th class="text-center">Qtd</th><th class="money">Valor Unit.</th><th class="money">Subtotal</th></tr>
             </thead>
             <tbody id="resume-body"></tbody>
         </table>
     </div>
 
-    <div class="grid-2 no-print" style="margin-top: 24px;">
-        <div class="section-box" style="margin-bottom: 0;">
-            <h2 style="text-transform: none;">Ajustes financeiros</h2>
+    <div class="grid-2 no-print mt-24">
+        <div class="section-box no-margin-bottom">
+            <h2 class="normal-case">Ajustes financeiros</h2>
             <div class="grid-2">
                 <div>
                     <label>Cupom de desconto</label>
                     <input type="text" id="input-desconto" placeholder="Ex: CREVO10" oninput="updateAll()" style="text-transform: uppercase;">
-                    <small id="msg-cupom" style="font-weight: bold; display: block; margin-top: 8px;"></small>
+                    <small id="msg-cupom" class="cupom-msg"></small>
                 </div>
                 <div><label>Acréscimo (R$)</label><input type="number" id="valor-acrescimo" value="0" min="0" step="0.01" oninput="updateAll()"></div>
             </div>
-            <div style="margin-top: 16px;"><label>Frete (R$)</label><input type="number" id="valor-frete" value="0" min="0" step="0.01" oninput="updateAll()"></div>
+            <div class="mt-16"><label>Frete (R$)</label><input type="number" id="valor-frete" value="0" min="0" step="0.01" oninput="updateAll()"></div>
         </div>
         <div class="totals-box">
             <div class="totals-row"><span>Subtotal Impressão:</span><span id="tot-impressao">R$ 0,00</span></div>
             <div class="totals-row"><span>Subtotal Molduras:</span><span id="tot-moldura">R$ 0,00</span></div>
-            <div class="totals-row" style="color: #A8E6CF; display: none;" id="row-desc"><span>Desconto:</span><span id="tot-desc">- R$ 0,00</span></div>
-            <div class="totals-row" style="display: none;" id="row-acres"><span>Acréscimo:</span><span id="tot-acres">+ R$ 0,00</span></div>
-            <div class="totals-row" style="display: none;" id="row-frete"><span>Frete:</span><span id="tot-frete">+ R$ 0,00</span></div>
+            <div class="totals-row discount-row" id="row-desc"><span>Desconto:</span><span id="tot-desc">- R$ 0,00</span></div>
+            <div class="totals-row hidden-row" id="row-acres"><span>Acréscimo:</span><span id="tot-acres">+ R$ 0,00</span></div>
+            <div class="totals-row hidden-row" id="row-frete"><span>Frete:</span><span id="tot-frete">+ R$ 0,00</span></div>
             <div class="totals-row grand-total"><span>TOTAL GERAL:</span><span id="tot-geral">R$ 0,00</span></div>
         </div>
     </div>
 
-    <div class="no-print section-box" style="margin-top: 24px;">
+    <div class="no-print section-box mt-24">
         <div class="header-section">
-            <h2 style="text-transform: none;">Mensagem de rodapé</h2>
-            <div class="actions-group"><button class="btn btn-outline" style="border-color: var(--border-color); color: var(--text-main);" onclick="abrirModalFrases()"><ion-icon name="pencil-outline"></ion-icon> Gerenciar frases</button></div>
+            <h2 class="normal-case">Mensagem de rodapé</h2>
+            <div class="actions-group"><button class="btn btn-outline btn-manage-frases" onclick="abrirModalFrases()"><ion-icon name="pencil-outline"></ion-icon> Gerenciar frases</button></div>
         </div>
         <label>Escolha a frase para este orçamento:</label>
-        <select id="frase-selecionada" style="font-style: italic;"></select>
+        <select id="frase-selecionada" class="italic-select"></select>
     </div>
 
     <div class="print-only">
-        <div style="display: flex; justify-content: flex-end;">
-            <div class="totals-box" style="margin-right: 0;">
+        <div class="flex-end">
+            <div class="totals-box totals-box-print">
                 <div class="totals-row"><span>Subtotal Impressão:</span><span id="print-tot-impressao">R$ 0,00</span></div>
                 <div class="totals-row"><span>Subtotal Molduras:</span><span id="print-tot-moldura">R$ 0,00</span></div>
-                <div class="totals-row" style="color: var(--success-color); display: none;" id="print-row-desc"><span>Desconto:</span><span id="print-tot-desc">- R$ 0,00</span></div>
-                <div class="totals-row" style="display: none;" id="print-row-acres"><span>Acréscimo:</span><span id="print-tot-acres">+ R$ 0,00</span></div>
-                <div class="totals-row" style="display: none;" id="print-row-frete"><span>Frete:</span><span id="print-tot-frete">+ R$ 0,00</span></div>
-                <div class="totals-row grand-total" style="border-top-color: var(--border-color);"><span>TOTAL GERAL:</span><span id="print-tot-geral">R$ 0,00</span></div>
+                <div class="totals-row discount-row-print" id="print-row-desc"><span>Desconto:</span><span id="print-tot-desc">- R$ 0,00</span></div>
+                <div class="totals-row hidden-row" id="print-row-acres"><span>Acréscimo:</span><span id="print-tot-acres">+ R$ 0,00</span></div>
+                <div class="totals-row hidden-row" id="print-row-frete"><span>Frete:</span><span id="print-tot-frete">+ R$ 0,00</span></div>
+                <div class="totals-row grand-total grand-total-print"><span>TOTAL GERAL:</span><span id="print-tot-geral">R$ 0,00</span></div>
             </div>
         </div>
     </div>
@@ -750,685 +532,26 @@
         <p><strong>Entrega/retirada:</strong> A combinar</p>
         <p class="validade-text">Orçamento válido por 10 dias.</p>
         <div class="signature-area">
-            <div class="signature-box"><img src="assinatura_normal_black.png" alt="Assinatura" onerror="this.style.display='none'"><div class="signature-line">CREVO Studio LTDA<br>CNPJ: 50.958.873/0001-80</div></div>
-            <div class="signature-box"><br><br><br><br><br><div class="signature-line sig-cliente-text">De acordo (Cliente)</div></div>
+            <div class="signature-box">
+                <img src="assinatura_normal_black.png" alt="Assinatura" onerror="this.style.display='none'">
+                <div class="signature-line">CREVO Studio LTDA<br>CNPJ: 50.958.873/0001-80</div>
+            </div>
+            <div class="signature-box">
+                <br><br><br><br><br>
+                <div class="signature-line sig-cliente-text">De acordo (Cliente)</div>
+            </div>
         </div>
         <div class="quote-container" id="quote-footer"></div>
     </div>
 
-    <div class="no-print actions-bottom" style="margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 24px; display: flex; justify-content: space-between;">
-        <button class="btn btn-outline" style="color: var(--danger-color); border-color: var(--border-color);" onclick="limparTudo()"><ion-icon name="close-outline"></ion-icon> Limpar orçamento</button>
-        <button class="btn" style="font-size: 1.15rem; padding: 16px 32px;" onclick="imprimirPDF()"><ion-icon name="document-text-outline"></ion-icon> Gerar PDF / Imprimir</button>
+    <div class="no-print actions-bottom action-bottom-container">
+        <button class="btn btn-outline btn-clear-all" onclick="limparTudo()"><ion-icon name="close-outline"></ion-icon> Limpar orçamento</button>
+        <button class="btn btn-print-main" onclick="imprimirPDF()"><ion-icon name="document-text-outline"></ion-icon> Gerar PDF / Imprimir</button>
     </div>
 
 </div>
 
-<script>
-    // --- SMART SELECTOR ---
-    const $ = id => document.getElementById(id);
+<script src="script.js"></script>
 
-    // --- DADOS INICIAIS E DBs ---
-    const defaultPrices = {
-        moldura: 0.02, markup: 1.8038,
-        materiais: {
-            'papel': [ { id: 'fotomate', nome: 'PHOTO MATTE 200 GRS - Fosco', val: 0.1000 }, { id: 'photolustre', nome: 'PHOTO LUSTRE PREMIUM 310 GRS - Semi Brilho', val: 0.1556 }, { id: 'somerset', nome: 'SOMERSET ENHANCED VELVET 330 GRS - Fosco c/ textura', val: 0.2000 }, { id: 'ragphoto', nome: 'RAG PHOTOGRAPHIQUE 310 GRS - Fosco', val: 0.2369 }, { id: 'canson', nome: 'AQUARELLE RAG CANSON 310 GRS - Fosco c/ textura', val: 0.2300 }, { id: 'platine', nome: 'PLATINE FIBRE RAG 310 GRS - Semi Brilho', val: 0.2400 } ],
-            'canvas': [ { id: 'policanvas', nome: 'POLICANVAS 260 GRS LEYDA', val: 0.160333 }, { id: 'photoart', nome: 'PHOTO ART PRO CANVAS 395 GRS', val: 0.2808 } ]
-        }
-    };
-    const defaultQuotes = [ 
-        { id: 1, text: "Mesmo a noite mais escura terminará e o sol nascerá.", author: "Victor Hugo" }, 
-        { id: 2, text: "A beleza das coisas existe na mente de quem as contempla.", author: "David Hume" }, 
-        { id: 3, text: "Somos feitos da mesma matéria dos sonhos.", author: "William Shakespeare" }, 
-        { id: 4, text: "Onde há sombra, há também luz.", author: "Vincent van Gogh" }, 
-        { id: 5, text: "A simplicidade é o último grau da sofisticação.", author: "Leonardo da Vinci" }, 
-        { id: 6, text: "Tudo tem beleza, mas nem todos a veem.", author: "Confúcio" }, 
-        { id: 7, text: "A vida não é sobre esperar a tempestade passar, mas aprender a dançar na chuva.", author: "Vivian Greene" }, 
-        { id: 8, text: "A luz pensa que viaja mais rápido que tudo, mas está enganada — onde quer que vá, encontra a escuridão primeiro.", author: "Terry Pratchett" }, 
-        { id: 9, text: "O essencial é invisível aos olhos.", author: "Antoine de Saint-Exupéry" } 
-    ];
-    const defaultUsers = [ { user: 'admin', pass: '101214@Crevo' } ];
-    const moldurasPapel = ['Madeira branca', 'Madeira clara', 'Madeira escura', 'Madeira mel', 'Madeira preta'];
-    const moldurasCanvas = ['Somente chassis', 'Canaleta branca', 'Canaleta madeira clara', 'Canaleta madeira escura', 'Canaleta madeira mel', 'Canaleta madeira preta'];
-    const tamanhosPadrao = { 'A4': { w: 21.0, h: 29.7 }, 'A3': { w: 29.7, h: 42.0 }, 'A2': { w: 42.0, h: 59.4 }, 'A1': { w: 59.4, h: 84.1 }, 'A0': { w: 84.1, h: 118.9 } };
-
-    let itemsState = []; let itemIdCounter = 0;
-    let clientesDB = JSON.parse(localStorage.getItem('crevo_clientes')) || [];
-    let categoriasDB = JSON.parse(localStorage.getItem('crevo_categorias')) || ['Agência', 'Arquitetura', 'Audiovisual', 'Fotografia', 'Galeria', 'Marketing'];
-    let precosDB = JSON.parse(localStorage.getItem('crevo_prices')) || defaultPrices;
-    let frasesDB = JSON.parse(localStorage.getItem('crevo_quotes')) || defaultQuotes;
-    let cuponsDB = JSON.parse(localStorage.getItem('crevo_cupons')) || { 'CREVO10': { tipo: 'percentual', val: 10 } };
-    let usuariosDB = JSON.parse(localStorage.getItem('crevo_usuarios')) || defaultUsers;
-    let currentCategoryFilter = 'Todos';
-
-    // --- BIOMETRIA HELPERS (Base64URL Seguro) ---
-    const b64uEncode = buffer => btoa(String.fromCharCode(...new Uint8Array(buffer))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-    const b64uDecode = str => {
-        const padding = '='.repeat((4 - str.length % 4) % 4);
-        const base64 = (str + padding).replace(/-/g, '+').replace(/_/g, '/');
-        const rawData = atob(base64);
-        const buffer = new Uint8Array(rawData.length);
-        for (let i = 0; i < rawData.length; ++i) buffer[i] = rawData.charCodeAt(i);
-        return buffer;
-    };
-
-    // --- INICIALIZAÇÃO ---
-    window.addEventListener('DOMContentLoaded', () => {
-        if(sessionStorage.getItem('crevo_logged_in') === 'true') $('login-overlay').style.display = 'none';
-        if(window.PublicKeyCredential && localStorage.getItem('crevo_biometria_id')) {
-            $('btn-faceid-login').style.display = 'inline-flex';
-            $('btn-faceid-admin').style.display = 'inline-flex';
-        }
-        gerarNumeroOrcamento(); setarDataHoraAtual(); carregarFrasesSelect(); renderCategoriaSelects(); adicionarItem(); 
-        if(!localStorage.getItem('crevo_prices')) sincronizarDadosServidor();
-    });
-
-    // --- BIOMETRIA E LOGIN ---
-    window.fazerLogin = function() {
-        const u = $('login-user').value.trim(); const p = $('login-pass').value.trim();
-        const valid = usuariosDB.find(x => x.user === u && x.pass === p);
-        if (valid) {
-            sessionStorage.setItem('crevo_logged_in', 'true');
-            $('login-overlay').style.display = 'none';
-            if(window.PublicKeyCredential && !localStorage.getItem('crevo_biometria_id')) {
-                setTimeout(() => { if(confirm("Deseja habilitar o Face ID / Touch ID neste aparelho?")) registrarBiometria(); }, 1000);
-            }
-        } else { $('login-error').style.display = 'block'; }
-    };
-
-    window.registrarBiometria = async function() {
-        if (!window.PublicKeyCredential) return alert("Biometria não suportada neste navegador.");
-        try {
-            const challenge = new Uint8Array(32); window.crypto.getRandomValues(challenge);
-            const userId = new Uint8Array(16); window.crypto.getRandomValues(userId);
-            const options = {
-                challenge, rp: { name: "CREVO Studio" }, // Omitindo ID permite o Chrome/Safari deduzir o domínio atual
-                user: { id: userId, name: "admin@crevo.co", displayName: "Admin CREVO" },
-                pubKeyCredParams: [{alg: -7, type: "public-key"}, {alg: -257, type: "public-key"}],
-                authenticatorSelection: { userVerification: "preferred" }, timeout: 60000
-            };
-            const credential = await navigator.credentials.create({ publicKey: options });
-            localStorage.setItem('crevo_biometria_id', b64uEncode(credential.rawId));
-            $('btn-faceid-login').style.display = 'inline-flex';
-            $('btn-faceid-admin').style.display = 'inline-flex';
-            alert("Biometria ativada com sucesso!");
-        } catch(e) { 
-            console.error(e); 
-            alert("Configuração cancelada ou falhou. Verifique se está acessando o sistema por uma rede segura (HTTPS)."); 
-        }
-    };
-
-    window.loginBiometria = async function(isAdmin = false) {
-        let savedId = localStorage.getItem('crevo_biometria_id');
-        if(!savedId) return alert("Biometria não configurada.");
-        try {
-            const challenge = new Uint8Array(32); window.crypto.getRandomValues(challenge);
-            const options = {
-                challenge, allowCredentials: [{ id: b64uDecode(savedId), type: 'public-key' }],
-                timeout: 60000, userVerification: "preferred"
-            };
-            await navigator.credentials.get({ publicKey: options });
-            
-            if (isAdmin) {
-                fecharModalPwd(); abrirModalPrecos();
-            } else {
-                sessionStorage.setItem('crevo_logged_in', 'true');
-                $('login-overlay').style.display = 'none';
-            }
-        } catch(e) { console.error(e); alert("Autenticação falhou."); }
-    };
-
-    // --- SINCRONIZAÇÃO NUVEM ---
-    async function sincronizarDadosServidor() {
-        const ts = new Date().getTime(); 
-        try {
-            let resPrecos = await fetch(`./backup/crevo_precos_backup.json?v=${ts}`);
-            if (resPrecos.ok) {
-                let data = await resPrecos.json();
-                if (data.precos) precosDB = data.precos; else if (data.materiais) precosDB = data;
-                if (data.cupons) cuponsDB = data.cupons; if (data.usuarios) usuariosDB = data.usuarios;
-                localStorage.setItem('crevo_prices', JSON.stringify(precosDB)); localStorage.setItem('crevo_cupons', JSON.stringify(cuponsDB)); localStorage.setItem('crevo_usuarios', JSON.stringify(usuariosDB));
-            }
-            let resFrases = await fetch(`./backup/crevo_frases_backup.json?v=${ts}`);
-            if (resFrases.ok) {
-                let remoteFrases = await resFrases.json(); let idsLocais = frasesDB.map(f => f.id); let novasFrases = remoteFrases.filter(f => !idsLocais.includes(f.id));
-                if (novasFrases.length > 0) { frasesDB = [...frasesDB, ...novasFrases]; localStorage.setItem('crevo_quotes', JSON.stringify(frasesDB)); carregarFrasesSelect(); }
-            }
-            let resClientes = await fetch(`./backup/crevo_clientes_backup.json?v=${ts}`);
-            if (resClientes.ok) {
-                let remoteClientes = await resClientes.json(); let idsLocais = clientesDB.map(c => c.id); let novosClientes = remoteClientes.filter(c => !idsLocais.includes(c.id));
-                if (novosClientes.length > 0) {
-                    clientesDB = [...clientesDB, ...novosClientes];
-                    novosClientes.forEach(nc => { if (nc.categoria && !categoriasDB.includes(nc.categoria)) categoriasDB.push(nc.categoria); });
-                    categoriasDB.sort(); localStorage.setItem('crevo_categorias', JSON.stringify(categoriasDB)); localStorage.setItem('crevo_clientes', JSON.stringify(clientesDB));
-                    renderCategoriaSelects(); renderCategoryFilters();
-                }
-            }
-            updateAll();
-        } catch (err) { console.log("Rodando localmente."); }
-    }
-
-    // --- INTERFACE UTILS ---
-    window.toggleFreteLinks = function(e, id) { e.preventDefault(); e.stopPropagation(); const drop = $(id); const isOpen = drop.style.display === 'block'; document.querySelectorAll('.frete-dropdown').forEach(el => el.style.display = 'none'); if (!isOpen) drop.style.display = 'block'; };
-    document.addEventListener('click', () => { document.querySelectorAll('.frete-dropdown').forEach(el => el.style.display = 'none'); });
-
-    window.toggleCollapsible = function(id) {
-        const el = $(id); const icon = $('icon-' + id);
-        if(!el || !icon) return;
-        if(el.style.display === 'none') { el.style.display = 'block'; icon.setAttribute('name', 'chevron-up-outline'); } 
-        else { el.style.display = 'none'; icon.setAttribute('name', 'chevron-down-outline'); }
-    };
-
-    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') document.querySelectorAll('.modal-overlay').forEach(modal => { modal.style.display = 'none'; }); });
-
-    // --- FORMATADORES ---
-    function formatDocDisplay(v) {
-        if(!v) return '-'; let x = v.replace(/\D/g, '');
-        if (x.length <= 11) { if(x.length === 11) { x = x.replace(/(\d{3})(\d)/, '$1.$2'); x = x.replace(/(\d{3})(\d)/, '$1.$2'); x = x.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); } } 
-        else { if(x.length === 14) { x = x.replace(/(\d{2})(\d)/, '$1.$2'); x = x.replace(/(\d{3})(\d)/, '$1.$2'); x = x.replace(/(\d{3})(\d)/, '$1/$2'); x = x.replace(/(\d{4})(\d{1,2})$/, '$1-$2'); } }
-        return x;
-    }
-    function formatDDIPhone(ddi, tel) {
-        if (!tel) return '-'; let cleanDDI = ddi ? ddi.toString().replace('.0', '').trim() : '+55'; if (!cleanDDI.startsWith('+')) cleanDDI = '+' + cleanDDI.replace(/\D/g, '');
-        let cleanTel = tel.toString().replace(/^55\.0\s*/, '').replace(/[^\d\+]/g, ''); let ddiDigits = cleanDDI.replace('+', '');
-        if (cleanTel.startsWith('+'+ddiDigits)) cleanTel = cleanTel.substring(ddiDigits.length+1); else if (cleanTel.startsWith(ddiDigits) && cleanTel.length > 10) cleanTel = cleanTel.substring(ddiDigits.length);
-        cleanTel = cleanTel.replace(/\D/g, ''); let maskedTel = cleanTel;
-        if (cleanDDI === '+55') { let x = cleanTel.match(/(\d{0,2})(\d{0,5})(\d{0,4})/); if(x) maskedTel = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : ''); } 
-        else if (cleanDDI === '+1') { let x = cleanTel.match(/(\d{0,3})(\d{0,3})(\d{0,4})/); if(x) maskedTel = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : ''); } 
-        else if (cleanDDI === '+351') { let x = cleanTel.match(/(\d{0,3})(\d{0,3})(\d{0,3})/); if(x) maskedTel = !x[2] ? x[1] : x[1] + (x[2] ? ' ' + x[2] : '') + (x[3] ? ' ' + x[3] : ''); }
-        return `${cleanDDI} ${maskedTel}`;
-    }
-
-    function gerarNumeroOrcamento() { $('orcamento-num-input').value = `ORC-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`; }
-    function setarDataHoraAtual() { const now = new Date(); now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); $('orcamento-data-input').value = now.toISOString().slice(0, 16); }
-
-    window.extrairInstagram = function(input) { let val = input.value.trim().split('?')[0].replace(/\/$/, ""); if(val.includes('instagram.com/')) val = val.split('instagram.com/')[1]; input.value = val.replace(/^@/, '').replace(/\//g, ''); };
-    
-    // --- MÁSCARAS ---
-    window.handlePasteTelefone = function(e) {
-        e.preventDefault(); let paste = (e.clipboardData || window.clipboardData).getData('text'); let ddiEl = $(e.target.id === 'cliente-tel' ? 'cliente-ddi' : 'modal-cliente-ddi'); if(!ddiEl) return;
-        let ddi = ddiEl.value, ddiNumeric = ddi.replace(/\D/g, ''), clean = paste.replace(/\D/g, ''); 
-        if (clean.startsWith(ddiNumeric)) { if (ddi === '+55' && clean.length >= 12) clean = clean.substring(2); else if (ddi === '+1' && clean.length >= 11) clean = clean.substring(1); else if (ddi !== '+55' && ddi !== '+1') clean = clean.substring(ddiNumeric.length); }
-        e.target.value = clean; aplicarMascaraTelefone({target: e.target});
-    };
-    window.aplicarMascaraTelefone = function(e) {
-        let input = e.target; let ddiEl = $(input.id === 'cliente-tel' ? 'cliente-ddi' : 'modal-cliente-ddi'); if(!ddiEl) return;
-        let ddi = ddiEl.value, v = (input.value || '').replace(/\D/g, '');
-        if (ddi === '+55') { v = v.substring(0, 11); let x = v.match(/(\d{0,2})(\d{0,5})(\d{0,4})/); if(x) input.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : ''); } 
-        else if (ddi === '+1') { v = v.substring(0, 10); let x = v.match(/(\d{0,3})(\d{0,3})(\d{0,4})/); if(x) input.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : ''); } 
-        else if (ddi === '+351') { v = v.substring(0, 9); let x = v.match(/(\d{0,3})(\d{0,3})(\d{0,3})/); if(x) input.value = !x[2] ? x[1] : x[1] + (x[2] ? ' ' + x[2] : '') + (x[3] ? ' ' + x[3] : ''); } 
-        else { v = v.substring(0, 15); input.value = v; }
-        if(input.id === 'cliente-tel') syncClientData();
-    };
-    window.aplicarMascaraDocumento = function(e) {
-        let x = (e.target.value || '').replace(/\D/g, '');
-        if (x.length <= 11) { let m = x.match(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/); if(m) e.target.value = !m[2] ? m[1] : m[1] + '.' + m[2] + (m[3] ? '.' + m[3] : '') + (m[4] ? '-' + m[4] : ''); } 
-        else { let m = x.match(/(\d{0,2})(\d{0,3})(\d{0,3})(\d{0,4})(\d{0,2})/); if(m) e.target.value = !m[2] ? m[1] : m[1] + '.' + m[2] + (m[3] ? '.' + m[3] : '') + (m[4] ? '/' + m[4] : '') + (m[5] ? '-' + m[5] : ''); }
-        if(e.target.id === 'cliente-doc') syncClientData();
-    };
-    window.aplicarMascaraCEP = function(e, prefix) {
-        let x = (e.target.value || '').replace(/\D/g, '').match(/(\d{0,5})(\d{0,3})/); if(x) e.target.value = !x[2] ? x[1] : x[1] + '-' + x[2];
-        if(prefix === 'cliente') syncClientData();
-        if(e.type === 'input' && e.target.value && e.target.value.length === 9) buscarCEP(e.target.value, prefix);
-    };
-
-    async function buscarCEP(cep, prefix) {
-        let cleanCEP = cep.replace(/\D/g, '');
-        if(cleanCEP.length === 8) {
-            try {
-                let res = await fetch(`https://viacep.com.br/ws/${cleanCEP}/json/`); let data = await res.json();
-                if(!data.erro) {
-                    let endInput = $(`${prefix}-endereco`); endInput.value = `${data.logradouro},  - ${data.bairro}`; $(`${prefix}-cidade`).value = `${data.localidade} / ${data.uf}`;
-                    if(prefix === 'cliente') syncClientData();
-                    endInput.focus(); setTimeout(() => endInput.setSelectionRange(data.logradouro.length + 2, data.logradouro.length + 2), 50);
-                }
-            } catch(e) { console.log(e); }
-        }
-    }
-
-    // --- ORÇAMENTO CLIENTE ---
-    window.syncClientData = function() {
-        try {
-            let nomeCli = $('cliente-nome').value.trim(), docCli = $('cliente-doc').value.trim(), endCli = $('cliente-endereco').value.trim(), cidCli = $('cliente-cidade').value.trim(), cepCli = $('cliente-cep').value.trim();
-            $('print-cliente-nome').innerText = nomeCli || 'Não informado'; $('print-cliente-email').innerText = $('cliente-email').value || '-';
-            let tel = $('cliente-tel').value; $('print-cliente-tel').innerText = tel ? `${$('cliente-ddi').value} ${tel}` : '-'; $('print-cliente-doc').innerText = docCli || '-';
-            
-            $('p-print-cep').style.display = cepCli ? 'block' : 'none'; if(cepCli) $('print-cliente-cep').innerText = cepCli;
-            $('p-print-endereco').style.display = endCli ? 'block' : 'none'; if(endCli) $('print-cliente-endereco').innerText = endCli;
-            $('p-print-cidade').style.display = cidCli ? 'block' : 'none'; if(cidCli) $('print-cliente-cidade').innerText = cidCli;
-            
-            let sigTexto = nomeCli ? `De acordo (${nomeCli.toUpperCase()})` : 'De acordo (Cliente)';
-            if(docCli) sigTexto += `<br>${docCli.replace(/\D/g, '').length > 11 ? 'CNPJ: ' : 'CPF: '}${docCli}`;
-            document.querySelectorAll('.sig-cliente-text').forEach(el => el.innerHTML = sigTexto);
-        } catch(err) {}
-    };
-
-    window.limparDadosCliente = function() {
-        $('cliente-nome').value = ''; $('cliente-email').value = ''; $('cliente-tel').value = ''; $('cliente-doc').value = ''; 
-        $('cliente-cep').value = ''; $('cliente-endereco').value = ''; $('cliente-cidade').value = ''; $('cliente-ddi').value = '+55'; 
-        syncClientData();
-    };
-
-    // --- CATEGORIAS ---
-    function renderCategoriaSelects() {
-        const selModal = $('modal-cliente-cat'); let currentValModal = selModal.value;
-        selModal.innerHTML = '<option value="">Sem categoria</option>'; categoriasDB.forEach(cat => selModal.innerHTML += `<option value="${cat}">${cat}</option>`); selModal.value = currentValModal;
-    }
-
-    let catEditOld = '';
-    window.abrirModalCategorias = function() { $('categorias-modal').style.display = 'flex'; cancelarEdicaoCategoria(); renderCategoriasAdmin(); };
-    window.fecharModalCategorias = function() { $('categorias-modal').style.display = 'none'; };
-    window.cancelarEdicaoCategoria = function() { $('nova-categoria-nome').value = ''; $('lbl-nova-cat').innerText = 'Nova categoria'; $('btn-cancel-edit-cat').style.display = 'none'; catEditOld = ''; };
-    window.editarCategoriaAdmin = function(nome) { $('nova-categoria-nome').value = nome; $('lbl-nova-cat').innerText = 'Editar categoria'; $('btn-cancel-edit-cat').style.display = 'inline-flex'; catEditOld = nome; };
-
-    window.salvarCategoriaAdmin = function() {
-        let val = $('nova-categoria-nome').value.trim(); if(!val) return;
-        if(catEditOld) { if(catEditOld !== val) { clientesDB.forEach(c => { if(c.categoria === catEditOld) c.categoria = val; }); localStorage.setItem('crevo_clientes', JSON.stringify(clientesDB)); let idx = categoriasDB.indexOf(catEditOld); if(idx > -1) categoriasDB[idx] = val; } } 
-        else { if(!categoriasDB.includes(val)) categoriasDB.push(val); }
-        categoriasDB.sort(); localStorage.setItem('crevo_categorias', JSON.stringify(categoriasDB));
-        cancelarEdicaoCategoria(); renderCategoriasAdmin(); renderCategoriaSelects(); renderCategoryFilters(); renderListClientes($('busca-cliente') ? $('busca-cliente').value : '');
-    };
-    window.salvarEUsarCategoriaAdmin = function() { let val = $('nova-categoria-nome').value.trim(); if(!val) return; salvarCategoriaAdmin(); $('modal-cliente-cat').value = val; fecharModalCategorias(); };
-    window.removerCategoriaAdmin = function(nome) {
-        if(confirm(`Excluir a categoria "${nome}"? Clientes vinculados a ela ficarão sem categoria.`)) {
-            categoriasDB = categoriasDB.filter(c => c !== nome); clientesDB.forEach(c => { if(c.categoria === nome) c.categoria = ''; });
-            localStorage.setItem('crevo_categorias', JSON.stringify(categoriasDB)); localStorage.setItem('crevo_clientes', JSON.stringify(clientesDB));
-            renderCategoriasAdmin(); renderCategoriaSelects(); renderCategoryFilters(); renderListClientes($('busca-cliente') ? $('busca-cliente').value : '');
-        }
-    };
-    function renderCategoriasAdmin() {
-        const tb = $('lista-categorias-body'); tb.innerHTML = '';
-        categoriasDB.forEach(cat => tb.innerHTML += `<tr><td><strong>${cat}</strong></td><td class="actions-cell"><div class="actions-cell-flex"><button class="btn btn-icon" onclick="editarCategoriaAdmin('${cat}')"><ion-icon name="pencil-outline"></ion-icon></button> <button class="btn btn-icon" style="color:var(--danger-color);" onclick="removerCategoriaAdmin('${cat}')"><ion-icon name="trash-outline"></ion-icon></button></div></td></tr>`);
-    }
-
-    window.renderCategoryFilters = function() {
-        const container = $('category-filter-container'); if(!container) return;
-        const pastelColors = ['#E6F2FF', '#E6FFE6', '#FFFEE6', '#FFE6FE', '#FFEBE6', '#F2E6FF', '#F2FFE6', '#E6FFFF', '#FFE6E6', '#F0F8FF', '#F5F5DC', '#FFF0F5', '#F5FFFA', '#F0FFF0'];
-        let html = `<button class="cat-tag" style="background: ${currentCategoryFilter === 'Todos' ? 'var(--accent-color)' : '#fff'}; color: ${currentCategoryFilter === 'Todos' ? '#fff' : 'var(--text-main)'}; border-color: ${currentCategoryFilter === 'Todos' ? 'var(--accent-color)' : 'var(--border-color)'};" onclick="setCategoryFilter('Todos')">Todos</button>`;
-        categoriasDB.forEach((cat, index) => {
-            let isActive = currentCategoryFilter === cat; let bgColor = isActive ? 'var(--accent-color)' : pastelColors[index % pastelColors.length]; let color = isActive ? '#fff' : 'var(--text-main)';
-            html += `<button class="cat-tag" style="background: ${bgColor}; color: ${color}; border-color: ${isActive ? 'var(--accent-color)' : '#e4e4e4'};" onclick="setCategoryFilter('${cat}')">${cat}</button>`;
-        });
-        if(clientesDB.some(c => !c.categoria || c.categoria.trim() === '')) {
-            let isActive = currentCategoryFilter === 'Sem categoria'; let bgColor = isActive ? 'var(--accent-color)' : '#ffffff'; let color = isActive ? '#fff' : 'var(--text-main)';
-            html += `<button class="cat-tag" style="background: ${bgColor}; color: ${color}; border-color: ${isActive ? 'var(--accent-color)' : 'var(--border-color)'};" onclick="setCategoryFilter('Sem categoria')">Sem categoria</button>`;
-        }
-        container.innerHTML = html;
-    };
-    window.setCategoryFilter = function(cat) { currentCategoryFilter = cat; renderCategoryFilters(); renderListClientes($('busca-cliente') ? $('busca-cliente').value : ''); };
-
-    // --- CRM DE CLIENTES ---
-    window.abrirModalClientes = function() { $('client-modal').style.display = 'flex'; fecharDetalhesCliente(); let searchInput = $('busca-cliente'); if(searchInput) searchInput.value = ''; currentCategoryFilter = 'Todos'; renderCategoryFilters(); renderListClientes(); };
-    window.fecharModalClientes = function() { $('client-modal').style.display = 'none'; };
-    window.cancelarEdicaoClienteModal = function() {
-        ['modal-cliente-id','modal-cliente-nome','modal-cliente-email','modal-cliente-tel','modal-cliente-doc','modal-cliente-cep','modal-cliente-endereco','modal-cliente-cidade','modal-cliente-cat','modal-cliente-ig','modal-cliente-obs'].forEach(id => $(id).value = '');
-        $('modal-cliente-ddi').value = '+55'; $('modal-cliente-fixo').checked = false;
-        $('btn-cancel-edit-client').style.display = 'none'; $('form-add-cliente').style.display = 'none'; $('icon-form-add-cliente').setAttribute('name', 'chevron-down-outline');
-    };
-
-    window.editarClienteModal = function(id) {
-        const c = clientesDB.find(x => x.id === id); if(!c) return;
-        fecharDetalhesCliente();
-        $('modal-cliente-id').value = c.id; $('modal-cliente-nome').value = c.nome || ''; $('modal-cliente-email').value = c.email || '';
-        let ddi = c.ddi || '+55'; $('modal-cliente-ddi').value = ddi;
-        let telClean = (c.tel || '').toString().replace(/[^\d\+]/g, ''), ddiNum = ddi.replace(/\D/g, ''); 
-        if(telClean.startsWith('+'+ddiNum)) telClean = telClean.substring(ddiNum.length+1); else if(telClean.startsWith(ddiNum) && telClean.length > 10) telClean = telClean.substring(ddiNum.length);
-        $('modal-cliente-tel').value = telClean.replace(/\D/g, ''); aplicarMascaraTelefone({target: $('modal-cliente-tel')});
-        $('modal-cliente-doc').value = c.doc || ''; aplicarMascaraDocumento({target: $('modal-cliente-doc')});
-        $('modal-cliente-cep').value = c.cep || ''; aplicarMascaraCEP({target: $('modal-cliente-cep'), type: 'manual'}, 'modal-cliente');
-        $('modal-cliente-endereco').value = c.endereco || ''; $('modal-cliente-cidade').value = c.cidade || ''; $('modal-cliente-cat').value = c.categoria || ''; $('modal-cliente-ig').value = c.ig || ''; $('modal-cliente-obs').value = c.observacao || ''; $('modal-cliente-fixo').checked = c.fixo || false;
-        $('btn-cancel-edit-client').style.display = 'inline-flex'; $('form-add-cliente').style.display = 'block'; $('icon-form-add-cliente').setAttribute('name', 'chevron-up-outline');
-        document.querySelector('#client-modal .modal-content').scrollTop = 0;
-    };
-
-    window.salvarClienteModal = function() {
-        const id_edit = $('modal-cliente-id').value, nome = $('modal-cliente-nome').value.trim();
-        if (!nome) return alert("O nome é obrigatório.");
-        let ig = $('modal-cliente-ig').value.trim(); if(ig.includes('instagram.com/')) ig = ig.split('instagram.com/')[1].split('/')[0].split('?')[0];
-        
-        const nc = { id: id_edit ? parseInt(id_edit) : Date.now(), nome, email: $('modal-cliente-email').value.trim(), tel: $('modal-cliente-tel').value.trim(), doc: $('modal-cliente-doc').value.trim(), cep: $('modal-cliente-cep').value.trim(), endereco: $('modal-cliente-endereco').value.trim(), cidade: $('modal-cliente-cidade').value.trim(), ddi: $('modal-cliente-ddi').value, categoria: $('modal-cliente-cat').value.trim(), ig: ig.replace(/^@/, ''), observacao: $('modal-cliente-obs').value.trim(), fixo: $('modal-cliente-fixo').checked };
-        
-        if (id_edit) { let idx = clientesDB.findIndex(c => c.id === parseInt(id_edit)); if(idx >= 0) clientesDB[idx] = nc; } else clientesDB.push(nc);
-        localStorage.setItem('crevo_clientes', JSON.stringify(clientesDB)); cancelarEdicaoClienteModal(); renderCategoryFilters(); renderListClientes($('busca-cliente') ? $('busca-cliente').value : ''); alert("Cliente salvo localmente!");
-    };
-
-    window.salvarClienteAtual = function() {
-        const nome = $('cliente-nome').value.trim(), doc = $('cliente-doc').value.trim();
-        if (!nome) return alert("O nome é obrigatório.");
-        let nc = { id: Date.now(), nome, email: $('cliente-email').value.trim(), tel: $('cliente-tel').value.trim(), doc, cep: $('cliente-cep').value.trim(), endereco: $('cliente-endereco').value.trim(), cidade: $('cliente-cidade').value.trim(), ddi: $('cliente-ddi').value, categoria: '', ig: '', observacao: '', fixo: false };
-        let idx = clientesDB.findIndex(c => (doc && c.doc===doc) || (!doc && c.nome.toLowerCase()===nome.toLowerCase()));
-        if (idx >= 0) { let existing = clientesDB[idx]; nc.id = existing.id; nc.categoria = existing.categoria || ''; nc.ig = existing.ig || ''; nc.observacao = existing.observacao || ''; nc.fixo = existing.fixo || false; clientesDB[idx] = nc; alert("Cadastro atualizado localmente!"); } 
-        else { clientesDB.push(nc); alert("Novo cliente salvo localmente!"); }
-        localStorage.setItem('crevo_clientes', JSON.stringify(clientesDB));
-    };
-
-    window.limparTodosClientesAdmin = function() {
-        if(clientesDB.length === 0) return alert("Nenhum cliente no banco.");
-        let pwd = prompt("Digite a senha administrativa para APAGAR TODOS OS CONTATOS:");
-        if(pwd === '101214@Crevo') { if(confirm(`Certeza? Apagar ${clientesDB.length} clientes?`)) { clientesDB = []; localStorage.setItem('crevo_clientes', JSON.stringify(clientesDB)); renderCategoryFilters(); renderListClientes(); alert("Apagados."); } } else if (pwd !== null) { alert("Senha incorreta."); }
-    };
-
-    window.renderListClientes = function(busca = '') {
-        const container = $('client-list-container'); container.innerHTML = '';
-        if(clientesDB.length === 0) { $('total-clientes-footer').innerText = '0'; container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">Nenhum cliente cadastrado.</div>`; return; }
-        
-        let term = busca.toLowerCase().trim();
-        let filtered = clientesDB.filter(c => {
-            let matchBusca = (c.nome && c.nome.toLowerCase().includes(term)) || (c.email && c.email.toLowerCase().includes(term)) || (c.doc && c.doc.toLowerCase().includes(term));
-            let matchCat = currentCategoryFilter === 'Todos' || (c.categoria === currentCategoryFilter);
-            if (currentCategoryFilter === 'Sem categoria') matchCat = !c.categoria || c.categoria.trim() === '';
-            return matchBusca && matchCat;
-        });
-        
-        $('total-clientes-footer').innerText = filtered.length;
-        if(filtered.length === 0) { container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">Nenhum cliente encontrado para "${busca}".</div>`; return; }
-        
-        let html = '';
-        [...filtered].sort((a,b) => a.nome.localeCompare(b.nome)).forEach(c => {
-            html += `
-            <div class="ios-list-item" onclick="abrirDetalhesCliente(${c.id})">
-                <div class="ios-list-title">${c.nome} ${c.fixo ? `<span title="Cliente Fixo" style="color: #FFB300; font-size: 1.1rem;">★</span>` : ''}</div>
-                <div class="ios-list-actions">
-                    <button class="btn-icon" style="color:var(--success-color); padding: 4px;" onclick="event.stopPropagation(); usarCliente(${c.id})"><ion-icon name="checkmark-circle-outline" style="font-size: 24px;"></ion-icon></button>
-                    <ion-icon name="chevron-forward-outline" style="color:var(--text-muted); font-size: 20px;"></ion-icon>
-                </div>
-            </div>`;
-        });
-        container.innerHTML = html;
-    };
-
-    window.abrirDetalhesCliente = function(id) {
-        const c = clientesDB.find(x => x.id === id); if(!c) return;
-        $('crm-list-view').style.display = 'none'; $('crm-detail-view').style.display = 'flex'; $('detail-client-name').innerText = c.nome;
-        $('crm-detail-content').innerHTML = `
-            <div style="background: var(--bg-color); padding: 20px; border-radius: 12px; margin-bottom: 24px; font-size: 0.95rem; line-height: 1.8;">
-                <p><strong style="color: var(--text-muted);">Email:</strong><br>${c.email || '-'}</p>
-                <p><strong style="color: var(--text-muted);">Telefone:</strong><br>${formatDDIPhone(c.ddi, c.tel)}</p>
-                <p><strong style="color: var(--text-muted);">Documento:</strong><br>${formatDocDisplay(c.doc)}</p>
-                <p><strong style="color: var(--text-muted);">CEP:</strong><br>${c.cep || '-'}</p>
-                <p><strong style="color: var(--text-muted);">Endereço:</strong><br>${c.endereco || '-'}</p>
-                <p><strong style="color: var(--text-muted);">Cidade / UF:</strong><br>${c.cidade || '-'}</p>
-                <p><strong style="color: var(--text-muted);">Categoria:</strong><br>${c.categoria || '-'}</p>
-                <p><strong style="color: var(--text-muted);">Instagram:</strong><br>${c.ig ? '@'+c.ig : '-'}</p>
-                <p><strong style="color: var(--text-muted);">Observação:</strong><br>${c.observacao || '-'}</p>
-                <p><strong style="color: var(--text-muted);">Fixo:</strong><br>${c.fixo ? 'Sim ★' : 'Não'}</p>
-            </div>
-            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                <button class="btn" style="flex: 1; min-width: 100%;" onclick="usarCliente(${c.id})"><ion-icon name="checkmark-outline"></ion-icon> Usar no Orçamento</button>
-                <button class="btn btn-outline" style="flex: 1; min-width: 140px;" onclick="editarClienteModal(${c.id})"><ion-icon name="pencil-outline"></ion-icon> Editar Cliente</button>
-                <button class="btn btn-danger" style="flex: 1; min-width: 140px;" onclick="excluirCliente(${c.id});"><ion-icon name="trash-outline"></ion-icon> Apagar Cliente</button>
-            </div>
-        `;
-    };
-
-    window.fecharDetalhesCliente = function() { $('crm-detail-view').style.display = 'none'; $('crm-list-view').style.display = 'flex'; };
-
-    window.usarCliente = function(id) {
-        try {
-            const c = clientesDB.find(x => x.id === id); if(!c) return;
-            $('cliente-nome').value = c.nome || ''; $('cliente-email').value = c.email || '';
-            let ddi = c.ddi || '+55'; $('cliente-ddi').value = ddi;
-            let telClean = (c.tel || '').toString().replace(/[^\d\+]/g, ''), ddiNum = ddi.replace(/\D/g, '');
-            if(telClean.startsWith('+'+ddiNum)) telClean = telClean.substring(ddiNum.length+1); else if(telClean.startsWith(ddiNum) && telClean.length > 10) telClean = telClean.substring(ddiNum.length);
-            $('cliente-tel').value = telClean.replace(/\D/g, ''); aplicarMascaraTelefone({target: $('cliente-tel')});
-            $('cliente-doc').value = c.doc || ''; aplicarMascaraDocumento({target: $('cliente-doc')});
-            $('cliente-cep').value = c.cep || ''; aplicarMascaraCEP({target: $('cliente-cep'), type: 'manual'}, 'cliente');
-            $('cliente-endereco').value = c.endereco || ''; $('cliente-cidade').value = c.cidade || '';
-            syncClientData(); fecharModalClientes();
-        } catch(err) { console.error(err); fecharModalClientes(); }
-    };
-    
-    window.excluirCliente = function(id) { 
-        if(confirm("Deseja excluir permanentemente este cliente do banco de dados?")) { 
-            clientesDB = clientesDB.filter(x => x.id!==id); localStorage.setItem('crevo_clientes', JSON.stringify(clientesDB)); renderCategoryFilters(); renderListClientes($('busca-cliente') ? $('busca-cliente').value : ''); fecharDetalhesCliente();
-        } 
-    };
-    
-    window.exportarClientes = function(type) { 
-        if(type === 'json') baixarArquivo(JSON.stringify(clientesDB), "crevo_clientes_backup.json", "text/json;charset=utf-8;");
-        else if(type === 'csv') { let csv = "\uFEFFID,Nome,Email,Telefone,Documento,CEP,Endereco,Cidade,DDI,Categoria,Instagram,Observacao,ClienteFixo\n"; clientesDB.forEach(c => { let row = [ c.id, c.nome, c.email, c.tel, c.doc, c.cep, c.endereco, c.cidade, c.ddi, c.categoria, c.ig, c.observacao, c.fixo ? 'Sim' : 'Nao' ]; csv += row.map(v => `"${(v||'').toString().replace(/"/g, '""')}"`).join(',') + "\n"; }); baixarArquivo(csv, "crevo_clientes_backup.csv", "text/csv;charset=utf-8;"); }
-    };
-    window.importarClientes = function(e) { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = function(evt) { const txt = evt.target.result; if(file.name.endsWith('.json')) { try { let d = JSON.parse(txt); if(Array.isArray(d)) mesclarClientes(d); } catch(err) { alert("Erro JSON."); } } else if (file.name.endsWith('.csv')) { alert("Importação de CSV apenas pelo JSON para manter consistência de tipos."); } }; reader.readAsText(file); e.target.value = ""; };
-
-    function mesclarClientes(novos) {
-        let ids = novos.map(n => n.id); clientesDB = clientesDB.filter(c => !ids.includes(c.id)).concat(novos);
-        let catToUpdate = false; novos.forEach(nc => { if(nc.categoria && !categoriasDB.includes(nc.categoria)) { categoriasDB.push(nc.categoria); catToUpdate = true; } });
-        if(catToUpdate) { categoriasDB.sort(); localStorage.setItem('crevo_categorias', JSON.stringify(categoriasDB)); renderCategoriaSelects(); }
-        localStorage.setItem('crevo_clientes', JSON.stringify(clientesDB)); renderCategoryFilters(); renderListClientes($('busca-cliente') ? $('busca-cliente').value : ''); alert("Backup importado com sucesso!");
-    }
-
-    // --- ADMIN E PRECIFICAÇÃO ---
-    window.abrirModalPwd = function() { $('pwd-modal').style.display = 'flex'; $('admin-pwd').value = ''; };
-    window.fecharModalPwd = function() { $('pwd-modal').style.display = 'none'; };
-    window.checkPwd = function() { if($('admin-pwd').value === '101214@Crevo') { fecharModalPwd(); abrirModalPrecos(); } else alert("Senha incorreta."); };
-
-    function abrirModalPrecos() {
-        $('prices-modal').style.display = 'flex';
-        $('base-custo-moldura').value = precosDB.moldura; $('base-markup-moldura').value = precosDB.markup;
-        const cont = $('config-materiais-lista'); cont.innerHTML = '';
-        ['papel', 'canvas'].forEach(tipo => precosDB.materiais[tipo].forEach(mat => cont.innerHTML += `<div><label>${mat.nome}</label><input type="number" step="0.000001" id="mat-${mat.id}" value="${mat.val}"></div>`));
-        renderCuponsAdmin(); renderUsuariosAdmin();
-    }
-    window.fecharModalPrecos = function() { $('prices-modal').style.display = 'none'; };
-
-    window.salvarPrecos = function() {
-        precosDB.moldura = parseFloat($('base-custo-moldura').value) || 0; precosDB.markup = parseFloat($('base-markup-moldura').value) || 0;
-        ['papel', 'canvas'].forEach(tipo => precosDB.materiais[tipo].forEach(mat => mat.val = parseFloat($(`mat-${mat.id}`).value) || 0));
-        localStorage.setItem('crevo_prices', JSON.stringify(precosDB)); updateAll(); alert("Salvo localmente! Lembre-se de baixar o Backup JSON e subir no GitHub.");
-    };
-
-    window.exportarPrecos = function() { baixarArquivo(JSON.stringify({precos: precosDB, cupons: cuponsDB, usuarios: usuariosDB}), "crevo_precos_backup.json", "text/json;charset=utf-8;"); };
-    window.importarPrecos = function(e) {
-        const file = e.target.files[0]; if (!file) return; const reader = new FileReader();
-        reader.onload = function(evt) { 
-            try { 
-                let data = JSON.parse(evt.target.result); 
-                if(data && (data.precos || data.materiais)) { precosDB = data.precos || data; localStorage.setItem('crevo_prices', JSON.stringify(precosDB)); if(data.cupons) { cuponsDB = data.cupons; localStorage.setItem('crevo_cupons', JSON.stringify(cuponsDB)); } if(data.usuarios) { usuariosDB = data.usuarios; localStorage.setItem('crevo_usuarios', JSON.stringify(usuariosDB)); } fecharModalPrecos(); updateAll(); alert("Sistema importado!"); } else alert("Arquivo inválido.");
-            } catch(err) { alert("Erro de leitura."); } 
-        }; reader.readAsText(file); e.target.value = "";
-    };
-
-    function renderCuponsAdmin() {
-        const tb = $('lista-cupons-body'); tb.innerHTML = '';
-        for (let cod in cuponsDB) {
-            let c = cuponsDB[cod], display = c.tipo === 'percentual' ? `${c.val}%` : `R$ ${c.val}`;
-            tb.innerHTML += `<tr><td><strong>${cod}</strong></td><td>${c.tipo === 'percentual' ? 'Percentual' : 'Fixo'}</td><td style="font-weight:600;">${display}</td><td class="actions-cell"><div class="actions-cell-flex"><button class="btn btn-icon" onclick="editarCupomAdmin('${cod}')"><ion-icon name="pencil-outline"></ion-icon></button> <button class="btn btn-icon" style="color:var(--danger-color);" onclick="removerCupomAdmin('${cod}')"><ion-icon name="trash-outline"></ion-icon></button></div></td></tr>`;
-        }
-    }
-    window.editarCupomAdmin = function(cod) { const c = cuponsDB[cod]; if(!c) return; $('novo-cupom-cod').value = cod; $('novo-cupom-tipo').value = c.tipo; $('novo-cupom-val').value = c.val; $('modal-cupom-old-cod').value = cod; $('btn-cancel-edit-cupom').style.display = 'inline-flex'; };
-    window.cancelarEdicaoCupom = function() { $('novo-cupom-cod').value = ''; $('novo-cupom-tipo').value = 'percentual'; $('novo-cupom-val').value = ''; $('modal-cupom-old-cod').value = ''; $('btn-cancel-edit-cupom').style.display = 'none'; };
-    window.adicionarCupomAdmin = function() {
-        const cod = $('novo-cupom-cod').value.trim().toUpperCase(), tipo = $('novo-cupom-tipo').value, val = parseFloat($('novo-cupom-val').value), oldCod = $('modal-cupom-old-cod') ? $('modal-cupom-old-cod').value : '';
-        if(!cod || isNaN(val)) return alert("Preencha código e valor.");
-        if(oldCod && oldCod !== cod) delete cuponsDB[oldCod];
-        cuponsDB[cod] = { tipo: tipo, val: val }; localStorage.setItem('crevo_cupons', JSON.stringify(cuponsDB)); cancelarEdicaoCupom(); renderCuponsAdmin(); updateAll();
-    };
-    window.removerCupomAdmin = function(cod) { if(confirm("Excluir este cupom?")) { delete cuponsDB[cod]; localStorage.setItem('crevo_cupons', JSON.stringify(cuponsDB)); renderCuponsAdmin(); updateAll(); } };
-
-    function renderUsuariosAdmin() {
-        const tb = $('lista-usuarios-body'); tb.innerHTML = '';
-        usuariosDB.forEach(u => tb.innerHTML += `<tr><td><strong>${u.user}</strong></td><td>••••••••</td><td class="actions-cell"><div class="actions-cell-flex"><button class="btn btn-icon" onclick="editarUsuarioAdmin('${u.user}')"><ion-icon name="pencil-outline"></ion-icon></button> <button class="btn btn-icon" style="color:var(--danger-color);" onclick="removerUsuarioAdmin('${u.user}')"><ion-icon name="trash-outline"></ion-icon></button></div></td></tr>`);
-    }
-    window.editarUsuarioAdmin = function(username) { const u = usuariosDB.find(x => x.user === username); if(!u) return; $('novo-usuario-user').value = u.user; $('novo-usuario-pass').value = u.pass; $('modal-usuario-old-user').value = u.user; $('btn-cancel-edit-usuario').style.display = 'inline-flex'; };
-    window.cancelarEdicaoUsuario = function() { $('novo-usuario-user').value = ''; $('novo-usuario-pass').value = ''; $('modal-usuario-old-user').value = ''; $('btn-cancel-edit-usuario').style.display = 'none'; };
-    window.salvarUsuarioAdmin = function() {
-        const user = $('novo-usuario-user').value.trim(), pass = $('novo-usuario-pass').value.trim(), oldUser = $('modal-usuario-old-user').value;
-        if(!user || !pass) return alert("Preencha usuário e senha.");
-        if(oldUser && oldUser !== user) usuariosDB = usuariosDB.filter(x => x.user !== oldUser);
-        const existingIdx = usuariosDB.findIndex(x => x.user === user); if(existingIdx >= 0) usuariosDB[existingIdx].pass = pass; else usuariosDB.push({ user, pass });
-        localStorage.setItem('crevo_usuarios', JSON.stringify(usuariosDB)); cancelarEdicaoUsuario(); renderUsuariosAdmin();
-    };
-    window.removerUsuarioAdmin = function(username) { if(usuariosDB.length <= 1) return alert("Não é possível excluir o último usuário."); if(confirm(`Excluir o acesso de "${username}"?`)) { usuariosDB = usuariosDB.filter(x => x.user !== username); localStorage.setItem('crevo_usuarios', JSON.stringify(usuariosDB)); renderUsuariosAdmin(); } };
-
-    // --- FRASES DE RODAPÉ (DRILL-DOWN IOS) ---
-    function formatarFrase(f) { return `“${f.text}” — ${f.author}`; }
-    function carregarFrasesSelect() { const select = $('frase-selecionada'); select.innerHTML = ''; frasesDB.forEach(f => select.innerHTML += `<option value="${f.id}">${formatarFrase(f)}</option>`); if(frasesDB.length > 0) select.value = frasesDB[Math.floor(Math.random() * frasesDB.length)].id; }
-
-    window.abrirModalFrases = function() { $('quotes-modal').style.display = 'flex'; fecharDetalhesFrase(); cancelarEdicaoFrase(); renderizarFrases(); };
-    window.fecharModalFrases = function() { $('quotes-modal').style.display = 'none'; carregarFrasesSelect(); };
-    
-    window.cancelarEdicaoFrase = function() { 
-        $('modal-frase-id').value = ''; $('nova-frase-texto').value = ''; $('nova-frase-autor').value = ''; 
-        $('btn-cancel-edit-frase').style.display = 'none'; $('form-add-frase').style.display = 'none'; $('icon-form-add-frase').setAttribute('name', 'chevron-down-outline'); 
-    };
-    
-    window.editarFrase = function(id) { 
-        const fr = frasesDB.find(f => f.id === id); if(!fr) return; 
-        fecharDetalhesFrase();
-        $('modal-frase-id').value = fr.id; $('nova-frase-texto').value = fr.text; $('nova-frase-autor').value = fr.author; 
-        $('btn-cancel-edit-frase').style.display = 'inline-flex'; $('form-add-frase').style.display = 'block'; $('icon-form-add-frase').setAttribute('name', 'chevron-up-outline'); 
-    };
-
-    window.salvarFraseModal = function() {
-        const id_edit = $('modal-frase-id').value, txt = $('nova-frase-texto').value.trim(), aut = $('nova-frase-autor').value.trim();
-        if(!txt || !aut) return alert("Preencha frase e autor.");
-        const nf = { id: id_edit ? parseInt(id_edit) : Date.now(), text: txt.replace(/["“”]/g, ''), author: aut };
-        if (id_edit) { let idx = frasesDB.findIndex(f => f.id === parseInt(id_edit)); if(idx >= 0) frasesDB[idx] = nf; } else frasesDB.push(nf);
-        localStorage.setItem('crevo_quotes', JSON.stringify(frasesDB)); cancelarEdicaoFrase(); renderizarFrases(); carregarFrasesSelect();
-    };
-
-    window.renderizarFrases = function() {
-        const container = $('quotes-list-container'); container.innerHTML = '';
-        if(frasesDB.length === 0) { container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">Nenhuma frase cadastrada.</div>`; return; }
-        
-        let html = '';
-        frasesDB.forEach(f => {
-            html += `
-            <div class="ios-list-item" onclick="abrirDetalhesFrase(${f.id})">
-                <div class="ios-list-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80%; display: block; font-style: italic; font-weight: normal;">“${f.text}”</div>
-                <div class="ios-list-actions">
-                    <ion-icon name="chevron-forward-outline" style="color:var(--text-muted); font-size: 20px;"></ion-icon>
-                </div>
-            </div>`;
-        });
-        container.innerHTML = html;
-    };
-
-    window.abrirDetalhesFrase = function(id) {
-        const f = frasesDB.find(x => x.id === id); if(!f) return;
-        $('frases-list-view').style.display = 'none'; $('frases-detail-view').style.display = 'flex'; $('detail-frase-title').innerText = "Detalhes da Frase";
-        $('frases-detail-content').innerHTML = `
-            <div style="background: var(--bg-color); padding: 20px; border-radius: 12px; margin-bottom: 24px; font-size: 1.05rem; line-height: 1.6; font-style: italic;">
-                “${f.text}”<br><br>
-                <strong style="color: var(--text-main); font-style: normal;">— ${f.author}</strong>
-            </div>
-            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                <button class="btn btn-outline" style="flex: 1; min-width: 140px;" onclick="editarFrase(${f.id})"><ion-icon name="pencil-outline"></ion-icon> Editar Frase</button>
-                <button class="btn btn-danger" style="flex: 1; min-width: 140px;" onclick="excluirFrase(${f.id})"><ion-icon name="trash-outline"></ion-icon> Apagar Frase</button>
-            </div>
-        `;
-    };
-
-    window.fecharDetalhesFrase = function() { $('frases-detail-view').style.display = 'none'; $('frases-list-view').style.display = 'flex'; };
-
-    window.excluirFrase = function(id) { 
-        if(confirm("Deseja apagar esta frase?")) {
-            frasesDB = frasesDB.filter(f => f.id !== id); localStorage.setItem('crevo_quotes', JSON.stringify(frasesDB)); renderizarFrases(); fecharDetalhesFrase();
-        } 
-    };
-
-    window.exportarFrases = function() { baixarArquivo(JSON.stringify(frasesDB), "crevo_frases_backup.json", "text/json;charset=utf-8;"); };
-    window.importarFrases = function(e) { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = function(evt) { try { let data = JSON.parse(evt.target.result); if(Array.isArray(data)) { frasesDB = data; localStorage.setItem('crevo_quotes', JSON.stringify(frasesDB)); renderizarFrases(); alert("Frases importadas!"); } else alert("Arquivo inválido."); } catch(err) { alert("Erro de leitura."); } }; reader.readAsText(file); e.target.value = ""; };
-
-    function baixarArquivo(content, filename, type) { const blob = new Blob([content], { type: type }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = filename; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); }
-
-    // --- ITENS DO ORÇAMENTO ---
-    window.adicionarItem = function() { itemIdCounter++; itemsState.push({ id: itemIdCounter, tipo: 'canvas', materialId: 'policanvas', tamanhoSelect: '', w: '', h: '', comMoldura: false, tipoMoldura: 'Somente chassis', qtd: 1 }); renderItems(); updateAll(); };
-    window.removerItem = function(id) { itemsState = itemsState.filter(i => i.id !== id); renderItems(); updateAll(); };
-    window.duplicarItem = function(id) { const ori = itemsState.find(i => i.id === id); if(ori) { itemIdCounter++; itemsState.push({...ori, id: itemIdCounter}); renderItems(); updateAll(); } };
-    window.limparTudo = function() { if(confirm("Limpar todo o orçamento?")) { itemsState = []; limparDadosCliente(); gerarNumeroOrcamento(); setarDataHoraAtual(); $('input-desconto').value=''; $('msg-cupom').innerText=''; $('valor-acrescimo').value='0'; $('valor-frete').value='0'; adicionarItem(); carregarFrasesSelect(); } };
-
-    function renderItems() {
-        const cont = $('items-container'); cont.innerHTML = '';
-        itemsState.forEach((item, index) => {
-            let matOptions = precosDB.materiais[item.tipo].map(m => `<option value="${m.id}" ${item.materialId===m.id?'selected':''}>${m.nome}</option>`).join('');
-            let sizeOptions = `<option value="" disabled ${item.tamanhoSelect===''?'selected':''}>Selecione...</option><option value="personalizado" ${item.tamanhoSelect==='personalizado'?'selected':''}>Personalizado</option>`;
-            for (const [k, v] of Object.entries(tamanhosPadrao)) sizeOptions += `<option value="${k}" ${item.tamanhoSelect===k?'selected':''}>${k} (${v.w}x${v.h})</option>`;
-            const frameOptions = (item.tipo==='papel'?moldurasPapel:moldurasCanvas).map(m => `<option value="${m}" ${item.tipoMoldura===m?'selected':''}>${m}</option>`).join('');
-
-            cont.innerHTML += `
-                <div class="item-card" id="card-${item.id}">
-                    <h3 style="margin-bottom: 20px; font-size: 1.25rem; display: flex; justify-content: space-between; text-transform: none;"><span>Item ${index + 1}</span></h3>
-                    <div class="grid-4">
-                        <div><label>Tipo</label><select onchange="updateItemState(${item.id}, 'tipo', this.value)"><option value="papel" ${item.tipo==='papel'?'selected':''}>Papel Fine Art</option><option value="canvas" ${item.tipo==='canvas'?'selected':''}>Canvas</option></select></div>
-                        <div style="grid-column: span 2;"><label>Material</label><select onchange="updateItemState(${item.id}, 'materialId', this.value)">${matOptions}</select></div>
-                        <div><label>Quantidade</label><input type="number" min="1" value="${item.qtd}" onchange="updateItemState(${item.id}, 'qtd', this.value)"></div>
-                    </div>
-                    <div class="grid-3">
-                        <div><label>Tamanhos padrão</label><select onchange="updateItemSize(${item.id}, this.value)">${sizeOptions}</select></div>
-                        <div class="medidas-container" style="grid-column: span 2;">
-                            <div class="medidas-input"><label>Largura (cm)</label><input type="number" step="0.1" value="${item.w}" onchange="updateItemState(${item.id}, 'w', this.value)"></div>
-                            <button class="swap-btn" title="Inverter medidas" onclick="inverterMedidas(${item.id})"><ion-icon name="swap-horizontal-outline"></ion-icon></button>
-                            <div class="medidas-input"><label>Altura (cm)</label><input type="number" step="0.1" value="${item.h}" onchange="updateItemState(${item.id}, 'h', this.value)"></div>
-                        </div>
-                    </div>
-                    <div class="grid-2">
-                        <div class="checkbox-group"><input type="checkbox" id="frame-check-${item.id}" ${item.comMoldura?'checked':''} onchange="updateItemState(${item.id}, 'comMoldura', this.checked)"><label for="frame-check-${item.id}" style="margin:0; cursor:pointer;">${item.tipo==='papel'?'Adicionar moldura':'Adicionar chassi / moldura'}</label></div>
-                        <div><select onchange="updateItemState(${item.id}, 'tipoMoldura', this.value)" style="display: ${item.comMoldura?'block':'none'}">${frameOptions}</select></div>
-                    </div>
-                    <div class="item-actions"><button class="btn btn-outline btn-small" onclick="duplicarItem(${item.id})"><ion-icon name="copy-outline"></ion-icon> Duplicar</button><button class="btn btn-outline btn-small" style="color:var(--danger-color); border-color:var(--border-color);" onclick="removerItem(${item.id})"><ion-icon name="trash-outline"></ion-icon> Remover</button></div>
-                </div>`;
-        });
-    }
-
-    window.updateItemState = function(id, f, v) {
-        const i = itemsState.find(x => x.id===id); if(!i) return;
-        if(f==='tipo' && i.tipo!==v) { i.tipo=v; i.materialId=precosDB.materiais[v][0].id; i.comMoldura=false; i.tipoMoldura=v==='papel'?moldurasPapel[0]:moldurasCanvas[0]; renderItems(); }
-        else { if(f==='w'||f==='h'||f==='qtd') { v = v === '' ? '' : parseFloat(v) || 0; i.tamanhoSelect='personalizado'; } i[f] = v; if(f==='comMoldura'||f==='w'||f==='h') renderItems(); }
-        updateAll();
-    };
-    window.updateItemSize = function(id, v) { const i = itemsState.find(x => x.id===id); i.tamanhoSelect = v; if(v && v!=='personalizado') { i.w = tamanhosPadrao[v].w; i.h = tamanhosPadrao[v].h; } renderItems(); updateAll(); };
-    window.inverterMedidas = function(id) { const i = itemsState.find(x => x.id===id); let t=i.w; i.w=i.h; i.h=t; i.tamanhoSelect='personalizado'; renderItems(); updateAll(); };
-
-    // --- CALCULADORA E CUPOM ---
-    window.updateAll = function() {
-        let tImp = 0, tMol = 0; const tb = $('resume-body'); tb.innerHTML = '';
-        itemsState.forEach((i, idx) => {
-            let area = 0, pUnitImp = 0, pUnitMol = 0; const mat = precosDB.materiais[i.tipo].find(m => m.id===i.materialId);
-            if(i.w !== '' && i.h !== '') { area = i.w * i.h; pUnitImp = area * (mat?mat.val:0); if(i.comMoldura) pUnitMol = (area * precosDB.moldura) * precosDB.markup; }
-            const sub = (pUnitImp + pUnitMol) * i.qtd; tImp += (pUnitImp * i.qtd); tMol += (pUnitMol * i.qtd);
-            let desc = `${mat?mat.nome:'Material'}, ${i.w===''?'?':i.w}x${i.h===''?'?':i.h} cm`; if(i.comMoldura) desc += ` — com ${i.tipoMoldura.toLowerCase()}`;
-            tb.innerHTML += `<tr><td><strong>Item ${idx+1}</strong></td><td>${desc}</td><td style="text-align:center;">${i.qtd}</td><td class="money">${fBRL(pUnitImp+pUnitMol)}</td><td class="money">${fBRL(sub)}</td></tr>`;
-        });
-        if(itemsState.length===0) tb.innerHTML = `<tr><td colspan="5" style="text-align:center;">Nenhum item</td></tr>`;
-
-        let inputDesc = $('input-desconto').value.trim().toUpperCase(), des = 0, msgCupom = $('msg-cupom'); msgCupom.innerText = '';
-        if(inputDesc !== '') {
-            if(cuponsDB[inputDesc]) {
-                let c = cuponsDB[inputDesc]; if(c.tipo === 'percentual') { des = (tImp + tMol) * (c.val / 100); msgCupom.innerText = `✅ Cupom aplicado: ${c.val}% OFF`; } else { des = c.val; msgCupom.innerText = `✅ Cupom aplicado: R$ ${fBRL(c.val).replace('R$','').trim()} OFF`; }
-                msgCupom.style.color = 'var(--success-color)';
-            } else { msgCupom.innerText = '❌ Cupom inválido.'; msgCupom.style.color = 'var(--danger-color)'; des = 0; }
-        }
-
-        const acr = parseFloat($('valor-acrescimo').value)||0, fre = parseFloat($('valor-frete').value)||0, ger = (tImp + tMol + acr + fre) - des;
-        
-        ['tot-impressao','print-tot-impressao'].forEach(id=>$(id).innerText=fBRL(tImp)); ['tot-moldura','print-tot-moldura'].forEach(id=>$(id).innerText=fBRL(tMol)); 
-        ['tot-geral','print-tot-geral'].forEach(id=>$(id).innerText=fBRL(Math.max(ger,0))); ['tot-desc','print-tot-desc'].forEach(id=>$(id).innerText='- '+fBRL(des)); 
-        ['tot-acres','print-tot-acres'].forEach(id=>$(id).innerText='+ '+fBRL(acr)); ['tot-frete','print-tot-frete'].forEach(id=>$(id).innerText='+ '+fBRL(fre));
-        
-        ['row-desc','print-row-desc'].forEach(id=>$(id).style.display=des>0?'flex':'none'); 
-        ['row-acres','print-row-acres'].forEach(id=>$(id).style.display=acr>0?'flex':'none'); 
-        ['row-frete','print-row-frete'].forEach(id=>$(id).style.display=fre>0?'flex':'none');
-    };
-    function fBRL(v) { return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
-
-    window.imprimirPDF = function() {
-        if(itemsState.length===0) return alert('Adicione um item.');
-        let wEmpty = itemsState.some(i => i.w === '' || i.h === ''); if(wEmpty && !confirm('Existem itens sem largura/altura definidos (valor R$ 0,00). Deseja imprimir assim mesmo?')) return;
-        
-        $('print-orcamento-num').innerText = $('orcamento-num-input').value; const dInput = $('orcamento-data-input').value;
-        if(dInput) { const [dp, tp] = dInput.split('T'); const [y, m, d] = dp.split('-'); $('print-orcamento-data').innerText = `${d}/${m}/${y} ${tp}`; } else $('print-orcamento-data').innerText = '-';
-        
-        const fraseId = $('frase-selecionada').value, fr = frasesDB.find(f => f.id == fraseId); $('quote-footer').innerText = fr ? formatarFrase(fr) : '';
-        syncClientData(); updateAll(); 
-        
-        const originalTitle = document.title, nomeCliente = $('cliente-nome').value.trim(), nomeArquivo = nomeCliente ? `Orcamento-${nomeCliente.replace(/\s+/g, '-')}-CREVO` : `Orcamento-Cliente-CREVO`; document.title = nomeArquivo;
-        
-        setTimeout(() => {
-            window.print();
-            window.addEventListener('afterprint', function onAfterPrint() { document.title = originalTitle; window.removeEventListener('afterprint', onAfterPrint); });
-            setTimeout(() => { document.title = originalTitle; }, 3000);
-        }, 300);
-    };
-</script>
 </body>
 </html>
